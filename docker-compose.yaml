@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: puc_challenge
+      POSTGRES_USER: payment
+      POSTGRES_PASSWORD: P@yment2022
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.data/postgres:/var/lib/postgresql
