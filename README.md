@@ -12,3 +12,4 @@ Desafio de entrevista PUC
         - url: `jdbc:postgresql://localhost:5432/puc_challenge`
         - usuário: `payment`
         - senha: `P@yment2022`
+    - Escolhi usar o flyway, para subir o banco automaticamente
