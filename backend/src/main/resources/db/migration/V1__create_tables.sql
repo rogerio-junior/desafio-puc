@@ -23,7 +23,7 @@ CREATE TABLE payment (
 
 CREATE TABLE attendance (
     id_employee VARCHAR(11) NOT NULL,
-    entrance TIMESTAMP NOT NULL, -- Suspeito que a PK deveria ser só no id_employee
+    entrance TIMESTAMP NOT NULL,
 
     PRIMARY KEY (id_employee, entrance),
     FOREIGN KEY (id_employee) REFERENCES employee (id_social_number)
