@@ -3,9 +3,9 @@ package br.puc_rio.tecgraf.challenge.domain.payment;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import br.puc_rio.tecgraf.challenge.domain.EmployeeType;
 import br.puc_rio.tecgraf.challenge.domain.Gender;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
+import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeType;
 import br.puc_rio.tecgraf.challenge.domain.payment.employees.FixedTermEmployee;
 import br.puc_rio.tecgraf.challenge.domain.payment.employees.InternEmployee;
 import br.puc_rio.tecgraf.challenge.domain.payment.employees.PermanentEmployee;

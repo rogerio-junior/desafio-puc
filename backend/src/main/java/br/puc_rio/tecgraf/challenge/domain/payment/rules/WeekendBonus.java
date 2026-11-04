@@ -2,8 +2,8 @@ package br.puc_rio.tecgraf.challenge.domain.payment.rules;
 
 import java.math.BigDecimal;
 
-import br.puc_rio.tecgraf.challenge.domain.PayrollReference;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployee;
+import br.puc_rio.tecgraf.challenge.domain.payment.PayrollReference;
 
 public class WeekendBonus implements SalaryRule {
     @Override

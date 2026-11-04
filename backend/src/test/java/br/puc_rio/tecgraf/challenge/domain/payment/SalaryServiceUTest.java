@@ -24,10 +24,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.puc_rio.tecgraf.challenge.domain.EmployeeType;
 import br.puc_rio.tecgraf.challenge.domain.Gender;
-import br.puc_rio.tecgraf.challenge.domain.PayrollReference;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
+import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeType;
 import br.puc_rio.tecgraf.challenge.domain.payment.employees.FixedTermEmployee;
 import br.puc_rio.tecgraf.challenge.domain.payment.employees.InternEmployee;
 import br.puc_rio.tecgraf.challenge.domain.payment.employees.PermanentEmployee;

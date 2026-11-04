@@ -7,8 +7,10 @@ import java.util.List;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import br.puc_rio.tecgraf.challenge.domain.Page;
 import br.puc_rio.tecgraf.challenge.domain.payment.Payment;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployee;
+import br.puc_rio.tecgraf.challenge.domain.payment.PaymentInfo;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +20,58 @@ import lombok.RequiredArgsConstructor;
 public class PaymentRepositoryImpl implements PaymentRepository {
     private final JdbcClient jdbcClient;
     private final PaymentEmployeeMapper mapper;
+
+    // Ordem alfabética por nome e sobrenome. O CPF desempata homônimos e, no mesmo funcionário, o pagamento mais recente vem primeiro.
+    // A paginação é por keyset: os valores negativos permitem comparar ano e mês (DESC) na mesma comparação de linha dos demais campos (ASC).
+    @Override
+    public Page<PaymentInfo> findByCriteria(Criteria criteria, Page.Cursor cursor) {
+        // A construção dos critérios dessa maneira evita ter que criar vários ifs
+        final var FILTERS = """
+            (:socialNumberIS NULL OR p.id_employee = :socialNumber AS VARCHAR)
+            AND (:year IS NULL OR p.year =:year)
+            AND (:month IS NULL OR p.month = :month)
+        """;
+
+        final var SQL = """
+            SELECT ROW_NUMBER() OVER (ORDER BY p.year DESC, p.month, e.first_name, e.last_name, p.id_employee) AS key,
+                p.id_employee,
+                e.first_name,
+                e.last_name,
+                p.month,
+                p.year,
+                p.payment AS salary
+            FROM payment p
+            JOIN employee e ON e.id_social_number = p.id_employee
+            WHERE %s
+            ORDER BY key
+            LIMIT :limit OFFSET :offset
+        """.formatted(FILTERS);
+
+        final var COUNT_SQL = "SELECT COUNT(*) FROM payment p WHERE %s".formatted(FILTERS);
+
+        final var socialNumber = criteria.socialNumber() == null ? null : criteria.socialNumber().getNumber();
+        final var period = criteria.payrollPeriod();
+        final var year = period == null ? null : period.getYear();
+        final var month = period == null ? null : period.getMonthValue();
+
+        final var items = jdbcClient.sql(SQL)
+            .param("socialNumber", socialNumber)
+            .param("year", year)
+            .param("month", month)
+            .param("limit", cursor.limit())
+            .param("offset", Integer.valueOf(cursor.afterKey())) // TODO: Corrigir tipagem
+            .query(PaymentInfo.class)
+            .list();
+
+        var total = jdbcClient.sql(COUNT_SQL)
+            .param("socialNumber", socialNumber)
+            .param("year", year)
+            .param("month", month)
+            .query(Long.class)
+            .single();
+
+        return new Page<>(items, cursor, total);
+    }
 
     @Override
     public List<PaymentEmployee> findPendingsOn(YearMonth yearMonth) {
@@ -50,6 +104,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     // Retorna a quantidade de pagamentos efetivamente inseridos, desconsiderando os que já existiam
+    // TOOD: Ver alternativa melhor
     @Override
     public int insertPayments(List<Payment> payments) {
         final var SQL = """

@@ -36,7 +36,7 @@ GET /employees/{cpf}/payments?month=05-2026
 Response: 
 {
     [
-        { "month": "2026-05", "salary": "52.30"}
+        { "month": "2026-05", "salaryToReceive": "52.30"}
     ]
 }
 // Totais e informações de página
@@ -50,11 +50,11 @@ HEADER: Accept?: csv | retornar tbm em json para a tela
 Response: 
 {
     [
-        { "id_employee": "44454", "firstName": "asdda", "lastName": "asdasd", "month": 5, "year": 1887, "salary": ""}
+        { "id_employee": "44454", "firstName": "asdda", "lastName": "asdasd", "month": 5, "year": 1887, "salaryToReceive": ""}
     ]
 }
 // Em ordem alfabética
-// Estrutura CSV `"CPF", "Nome", "Sobrenome", "Mês", "Ano", "Salário a receber"`
+// Estrutura CSV ``
 ```
 
 
@@ -64,11 +64,10 @@ GET /employees?CEP=&active=true
 Response: 
 {
     [
-        { "id_employee": "44454", "firstName": "asdda", "lastName": "asdasd", "month": 5, "year": 1887, "salary": ""}
+        { "id_employee": "44454", "firstName": "asdda", "lastName": "asdasd", "month": 5, "year": 1887, "baseSalary": ""}
     ]
 }
 // Em ordem alfabética
-// Estrutura CSV `"CPF", "Nome", "Sobrenome", "Mês", "Ano", "Salário a receber"`
 ```
 - o CEP cumpre com o padrão de formação seguinte: <cinco números>-<três números>
 

@@ -1,4 +1,4 @@
-package br.puc_rio.tecgraf.challenge.domain;
+package br.puc_rio.tecgraf.challenge.domain.employee;
 
 import java.util.Arrays;
 

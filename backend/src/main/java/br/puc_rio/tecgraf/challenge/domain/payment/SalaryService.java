@@ -5,7 +5,6 @@ import java.time.YearMonth;
 
 import org.springframework.stereotype.Service;
 
-import br.puc_rio.tecgraf.challenge.domain.PayrollReference;
 import lombok.RequiredArgsConstructor;
 
 @Service

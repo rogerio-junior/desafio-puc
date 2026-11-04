@@ -3,7 +3,7 @@ package br.puc_rio.tecgraf.challenge.infra.payment;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-import br.puc_rio.tecgraf.challenge.domain.EmployeeType;
+import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeType;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployee;
 import br.puc_rio.tecgraf.challenge.domain.payment.employees.FixedTermEmployee;
 import br.puc_rio.tecgraf.challenge.domain.payment.employees.InternEmployee;

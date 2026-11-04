@@ -3,9 +3,6 @@ package br.puc_rio.tecgraf.challenge.infra.employee;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
-import br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployee;
-import br.puc_rio.tecgraf.challenge.domain.EmployeeType;
 import br.puc_rio.tecgraf.challenge.domain.Gender;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,9 +10,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -30,8 +24,7 @@ public class EmployeeEntity {
     @Column(name = "id_social_number")
     private String socialNumber;
 
-    @Enumerated(EnumType.STRING)
-    private EmployeeType type;
+    private String type;
 
     private String firstName;
 

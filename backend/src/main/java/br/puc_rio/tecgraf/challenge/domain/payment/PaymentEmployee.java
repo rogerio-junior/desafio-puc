@@ -5,10 +5,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import br.puc_rio.tecgraf.challenge.domain.EmployeeType;
 import br.puc_rio.tecgraf.challenge.domain.Gender;
-import br.puc_rio.tecgraf.challenge.domain.PayrollReference;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
+import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

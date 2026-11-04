@@ -12,6 +12,10 @@ public class SocialNumber {
     private final String number;
 
     public static SocialNumber of(final String number) {
+        if (number == null) {
+            return null;
+        }
+
         if (!isValid(number)) {
             throw new IllegalArgumentException("Invalid cpf %s".formatted(number));
         }

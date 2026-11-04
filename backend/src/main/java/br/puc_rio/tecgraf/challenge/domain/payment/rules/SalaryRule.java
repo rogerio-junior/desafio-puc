@@ -3,8 +3,8 @@ package br.puc_rio.tecgraf.challenge.domain.payment.rules;
 import java.math.BigDecimal;
 import java.util.List;
 
-import br.puc_rio.tecgraf.challenge.domain.PayrollReference;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployee;
+import br.puc_rio.tecgraf.challenge.domain.payment.PayrollReference;
 import lombok.RequiredArgsConstructor;
 
 public interface SalaryRule {
