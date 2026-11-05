@@ -5,6 +5,7 @@
   --color-line: rgba(36, 33, 28, 0.16);
   --color-line-strong: rgba(36, 33, 28, 0.35);
   --color-on-ink: #fbf8f1;
+  --color-info-bg: rgba(36, 33, 28, 0.04);
   --color-danger: #96301f;
   --color-danger-bg: rgba(150, 48, 31, 0.07);
   --color-danger-line: rgba(150, 48, 31, 0.35);

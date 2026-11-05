@@ -1,5 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { ApiError, computeSalary } from '../../api/payments';
+import { ApiError } from '../../api/ApiError';
+import { computeSalary } from '../../api/payments';
 import Button from '../../components/Button';
 import Notice from '../../components/Notice';
 import Field from '../../components/Field';
@@ -16,8 +17,9 @@ import SalaryResult from './SalaryResult';
 import styles from './ComputeSalaryPage.module.css';
 
 const BUTTON_LABELS = {
-  compute: 'Calcular folha',
-  retry: 'Tentar novamente',
+  initial: 'Calcular folha',
+  success: 'Calcular folha',
+  failed: 'Tentar novamente',
   loading: (
     <>
       Calculando
@@ -32,21 +34,13 @@ function ComputeSalaryPage() {
   const [validationError, setValidationError] = useState('');
   const { state, call, reset } = useApiCall(computeSalary);
 
-  const isLoading = state.status === 'loading';
   const isDateRejected =
-    state.status === 'failed' &&
+    state.isFailed &&
     state.error instanceof ApiError &&
     state.error.status === 400;
-  const isUnavailable = state.status === 'failed' && !isDateRejected;
+  const isUnavailable = state.isFailed && !isDateRejected;
   const period = getPayrollPeriod(referenceDate || today);
   const periodRange = formatPeriodRange(period);
-
-  let activeLabel = 'compute';
-  if (isLoading) {
-    activeLabel = 'loading';
-  } else if (isUnavailable) {
-    activeLabel = 'retry';
-  }
 
   function handleDateChange(event: ChangeEvent<HTMLInputElement>) {
     setReferenceDate(event.target.value);
@@ -71,14 +65,14 @@ function ComputeSalaryPage() {
   }
 
   let note = `Será calculado o período de ${periodRange}, mês anterior à data de referência.`;
-  if (isLoading) {
+  if (state.isLoading) {
     note = `Aguarde, estamos calculando os pagamentos do período de ${periodRange}…`;
-  } else if (state.status === 'success') {
+  } else if (state.isSuccess) {
     note = `Calculado o período de ${periodRange}, mês anterior à data de referência.`;
   }
 
   return (
-    <main className={styles.page}>
+    <main className={`rise ${styles.page}`}>
       <h1 className={styles.title}>
         Fechamento de <em className={styles.month}>{getMonthName(period)}</em>
       </h1>
@@ -93,7 +87,7 @@ function ComputeSalaryPage() {
               max={today}
               value={referenceDate}
               onChange={handleDateChange}
-              disabled={isLoading}
+              disabled={state.isLoading}
               error={
                 isDateRejected
                   ? 'A API recusou esta data. Confira e tente de novo.'
@@ -102,9 +96,9 @@ function ComputeSalaryPage() {
             />
             <Button
               type="submit"
-              disabled={isLoading}
+              disabled={state.isLoading}
               labels={BUTTON_LABELS}
-              activeLabel={activeLabel}
+              activeLabel={isDateRejected ? 'initial' : state.status}
             />
           </form>
 
@@ -119,7 +113,7 @@ function ComputeSalaryPage() {
             />
           )}
 
-          {state.status === 'success' && <SalaryResult result={state.data} />}
+          {state.isSuccess && <SalaryResult result={state.data} />}
         </section>
 
         <SalaryBonusRules />

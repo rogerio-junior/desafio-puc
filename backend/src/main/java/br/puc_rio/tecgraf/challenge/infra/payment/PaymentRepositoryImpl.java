@@ -27,7 +27,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     public Page<PaymentInfo> findByCriteria(Criteria criteria, Page.Cursor cursor) {
         // A construção dos critérios dessa maneira evita ter que criar vários ifs
         final var FILTERS = """
-            (:socialNumberIS NULL OR p.id_employee = :socialNumber AS VARCHAR)
+            (:socialNumber IS NULL OR p.id_employee = :socialNumber AS VARCHAR)
             AND (:year IS NULL OR p.year =:year)
             AND (:month IS NULL OR p.month = :month)
         """;

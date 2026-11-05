@@ -12,6 +12,12 @@
   --notice-line: var(--color-danger-line);
 }
 
+.info {
+  --notice-color: var(--color-ink);
+  --notice-bg: var(--color-info-bg);
+  --notice-line: var(--color-line-strong);
+}
+
 .title {
   margin: 0 0 10px;
   font-weight: 600;

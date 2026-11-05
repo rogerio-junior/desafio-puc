@@ -1,3 +1,4 @@
+import { Link, NavLink } from 'react-router';
 import styles from './Header.module.css';
 
 const NAV_ITEMS = [
@@ -6,29 +7,28 @@ const NAV_ITEMS = [
   { label: 'Funcionários', href: '/funcionarios' },
 ];
 
-type HeaderProps = {
-  current: string;
-};
-
-function Header({ current }: HeaderProps) {
+function Header() {
   return (
     <header className={styles.header}>
-      <a href="/" className={styles.brand}>
+      <Link to="/" className={styles.brand}>
         <span className={styles.brandName}>
           Pagamento<span className={styles.brandDot}>.</span>Folha
         </span>
         <span className={styles.brandTagline}>DESAFIO PUC RIO</span>
-      </a>
+      </Link>
 
       <nav className={styles.nav}>
         {NAV_ITEMS.map((item) => (
-          <a
+          <NavLink
             key={item.href}
-            href={item.href}
-            className={`${styles.navItem} ${item.label === current ? styles.navItemActive : ''}`}
+            to={item.href}
+            end
+            className={({ isActive }) =>
+              `${styles.navItem} ${isActive ? styles.navItemActive : ''}`
+            }
           >
             {item.label}
-          </a>
+          </NavLink>
         ))}
       </nav>
     </header>

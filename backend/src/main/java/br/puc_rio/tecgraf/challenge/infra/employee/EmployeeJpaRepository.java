@@ -11,11 +11,11 @@ public interface EmployeeJpaRepository extends JpaRepository<EmployeeEntity, Str
     // o valor não entra na regex, e os limites impedem que números maiores (ex: 123456-7890) sejam considerados.
     String ACTIVE_AND_CEP_FILTER = """
         e.active = :active
-        AND EXISTS (
+        AND (:cep IS NULL OR EXISTS (
             SELECT 1
             FROM regexp_matches(e.address, '(?<![0-9])[0-9]{5}-[0-9]{3}(?![0-9])', 'g') AS found
             WHERE found[1] = :cep
-        )
+        ))
         """;
 
     @Query(value = "SELECT e.* FROM employee e WHERE " + ACTIVE_AND_CEP_FILTER + """

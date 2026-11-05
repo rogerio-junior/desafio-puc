@@ -43,9 +43,9 @@ public class PaymentController {
     }
 
     @GetMapping(produces = "text/csv")
-    public ResponseEntity<byte[]> exportCsv(@Valid ExportCsvRequest request) {
+    public ResponseEntity<byte[]> exportCsv(@RequestParam YearMonth month) {
         final var cursor = new Page.Cursor(String.valueOf(0), Integer.MAX_VALUE);
-        final var criteria = new PaymentRepository.Criteria(null, request.month());
+        final var criteria = new PaymentRepository.Criteria(null, month);
 
         final var payments = paymentRepository.findByCriteria(criteria, cursor);
 
@@ -57,10 +57,4 @@ public class PaymentController {
             .contentType(new MediaType("text", "csv", csvPresenter.getCharset()))
             .body(csv);
     }
-
-    public record ExportCsvRequest(
-        @RequestParam
-        @NotNull
-        YearMonth month
-    ){ }
 }

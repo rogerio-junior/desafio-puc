@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import type { ComputeSalaryResult } from '../../api/payments';
 import { useCountUp } from '../../hooks/useCountUp';
 import { getMonthName } from '../../utils/payrollPeriod';
@@ -33,12 +34,12 @@ function SalaryResult({ result }: SalaryResultProps) {
         </p>
       )}
 
-      <a
+      <Link
         className={styles.link}
-        href={`/pagamentos?month=${payrollRef.period}`}
+        to={`/pagamentos?month=${payrollRef.period}`}
       >
         Ver pagamentos de {getMonthName(payrollRef.period)} →
-      </a>
+      </Link>
     </div>
   );
 }

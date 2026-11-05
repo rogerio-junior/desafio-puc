@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.YearMonth;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,9 +14,7 @@ import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
 import br.puc_rio.tecgraf.challenge.domain.employee.Employee;
 import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeRepository;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentRepository;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,29 +25,19 @@ public class EmployeeController {
     private final EmployeeRepository employeeRepository;
 
     @GetMapping("/{cpf}/payments")
-    public Page<FindPaymentsResponse> findPayments(@Valid FindPaymentsRequest request) {
-        var cursor = new Page.Cursor(String.valueOf(request.offset()), request.limit());
-        var criteria = new PaymentRepository.Criteria(SocialNumber.of(request.cpf()), request.month());
+    public Page<FindPaymentsResponse> findPayments(
+        @PathVariable String cpf,
+        @RequestParam(required = false) YearMonth month,
+        @RequestParam(defaultValue = "25") @Max(500) Integer limit,
+        @RequestParam(defaultValue = "0") Integer offset
+    ) {
+        var cursor = new Page.Cursor(String.valueOf(offset), limit);
+        var criteria = new PaymentRepository.Criteria(SocialNumber.of(cpf), month);
 
         // Usa conceito de presenter para converter o output no formato desejado
         return paymentRepository.findByCriteria(criteria, cursor)
             .map(p -> new FindPaymentsResponse(p.year(), p.month(), p.salary()));
     }
-
-    public record FindPaymentsRequest(
-        @RequestParam
-        YearMonth month,
-
-        @PathParam("cpf") 
-        String cpf,
-
-        @RequestParam(defaultValue = "25")
-        @Max(500)
-        Integer limit,
-
-        @RequestParam(defaultValue = "0")
-        Integer offset
-    ){ }
 
     public record FindPaymentsResponse(
         int year,
@@ -57,22 +46,13 @@ public class EmployeeController {
     ){ }
     
     @GetMapping
-    public Page<Employee> findByActiveAndCep(@Valid FindByActiveAndCepRequest request) {
-        var cursor = new Page.Cursor(String.valueOf(request.offset()), request.limit());
+    public Page<Employee> findByActiveAndCep(
+        @RequestParam(required = false) String cep,
+        @RequestParam(defaultValue = "25") @Max(500) Integer limit,
+        @RequestParam(defaultValue = "0") Integer offset
+    ) {
+        final var cursor = new Page.Cursor(String.valueOf(offset), limit);
 
-        // Usa conceito de presenter para converter o output no formato desejado
-        return employeeRepository.findByActiveAndCep(true, request.cep(), cursor);
+        return employeeRepository.findByActiveAndCep(true, cep, cursor);
     }
-
-    public record FindByActiveAndCepRequest(
-        @RequestParam
-        String cep,
-
-        @RequestParam(defaultValue = "25")
-        @Max(500)
-        Integer limit,
-
-        @RequestParam(defaultValue = "0")
-        Integer offset
-    ){ }
 }

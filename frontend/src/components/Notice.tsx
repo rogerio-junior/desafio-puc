@@ -1,6 +1,6 @@
 import styles from './Notice.module.css';
 
-type NoticeType = 'error';
+type NoticeType = 'error' | 'info';
 
 type NoticeProps = {
   type: NoticeType;

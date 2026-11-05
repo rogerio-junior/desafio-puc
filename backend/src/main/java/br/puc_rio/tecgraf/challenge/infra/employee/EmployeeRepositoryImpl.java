@@ -17,12 +17,13 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     @Override
     public Page<Employee> findByActiveAndCep(boolean active, String cep, Page.Cursor cursor) {
         final var offset = Long.parseLong(cursor.afterKey());
+        final var sanitizedCep = cep != null && cep.isBlank() ? null : cep;
 
-        final var employees = jpaRepository.findByActiveAndCep(active, cep, cursor.limit(), offset).stream()
+        final var employees = jpaRepository.findByActiveAndCep(active, sanitizedCep, cursor.limit(), offset).stream()
             .map(mapper::toDomain)
             .toList();
 
-        final var total = jpaRepository.countByActiveAndCep(active, cep);
+        final var total = jpaRepository.countByActiveAndCep(active, sanitizedCep);
 
         return new Page<>(employees, cursor, total);
     }

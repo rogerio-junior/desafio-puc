@@ -9,6 +9,10 @@
   font-weight: 500;
 }
 
+.inputWrapper {
+  position: relative;
+}
+
 .input {
   box-sizing: border-box;
   width: 100%;
@@ -31,6 +35,31 @@
 .input:disabled {
   opacity: 0.55;
   cursor: default;
+}
+
+.input::placeholder {
+  color: #6f6859;
+}
+
+.clearButton {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background-color: transparent;
+  color: var(--color-muted);
+  transition: background-color 0.18s ease;
+}
+
+.clearButton:hover {
+  background-color: rgba(36, 33, 28, 0.06);
 }
 
 .error {
