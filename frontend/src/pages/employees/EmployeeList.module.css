@@ -1,0 +1,82 @@
+.list {
+  margin-top: 32px;
+}
+
+.title {
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+
+.rule {
+  height: 1px;
+  background: var(--color-line-strong);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 24px;
+  align-items: baseline;
+  padding: 8px 0 14px;
+  border-bottom: 1px solid rgba(36, 33, 28, 0.1);
+  transition: background-color 0.18s ease;
+}
+
+.row:hover {
+  background-color: rgba(36, 33, 28, 0.03);
+}
+
+.nameCell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 16px;
+  min-width: 0;
+  min-height: 44px;
+}
+
+.name,
+.salary {
+  font-weight: 500;
+}
+
+.salary {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.detail {
+  font-size: 14px;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+.type {
+  text-align: right;
+}
+
+.paymentsLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+  color: var(--color-muted);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(36, 33, 28, 0.35);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.row:hover .paymentsLink,
+.paymentsLink:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .paymentsLink {
+    opacity: 1;
+  }
+}

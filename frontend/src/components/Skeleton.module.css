@@ -1,0 +1,17 @@
+.skeleton {
+  height: 14px;
+  background: rgba(36, 33, 28, 0.09);
+  animation: pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
