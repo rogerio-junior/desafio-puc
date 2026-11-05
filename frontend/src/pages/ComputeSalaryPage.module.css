@@ -1,0 +1,14 @@
+.page {
+  padding-top: clamp(40px, 7vw, 88px);
+  container-type: inline-size;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-accent);
+  font-weight: 400;
+  font-size: 7cqi;
+  line-height: 1.02;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+}

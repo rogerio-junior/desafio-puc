@@ -1,5 +1,5 @@
 import Header from './components/Header'
-import ClosingPage from './pages/ClosingPage'
+import ComputeSalaryPage from './pages/ComputeSalaryPage'
 import styles from './App.module.css'
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
     <div className={styles.app}>
       <div className={styles.container}>
         <Header current="Fechamento" />
-        <ClosingPage />
+        <ComputeSalaryPage />
       </div>
     </div>
   )

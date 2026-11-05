@@ -1,0 +1,36 @@
+:root {
+  --color-ink: #24211c;
+  --color-muted: #5c564a;
+  --color-green: #1e6b47;
+  --color-line: rgba(36, 33, 28, 0.16);
+  --color-bg-light: #fcfaf3;
+  --color-bg-warm: #f3ecdd;
+  --color-bg-base: #f7f2e7;
+
+  --font-text: 'Instrument Sans', system-ui, sans-serif;
+  --font-accent: 'Libre Caslon Text', Georgia, serif;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg-base);
+  color: var(--color-ink);
+  font-family: var(--font-text);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
