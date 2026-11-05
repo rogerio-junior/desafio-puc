@@ -1,5 +1,6 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { findActiveEmployeesByCep } from '../../api/employees';
+import { useEffect, useState, type ChangeEvent, type SubmitEvent } from 'react';
+import { useLocation, useSearchParams } from 'react-router';
+import { findActiveEmployeesByCep } from '../../api/client/employees';
 import Button from '../../components/Button';
 import Field from '../../components/Field';
 import Notice from '../../components/Notice';
@@ -7,7 +8,13 @@ import Pagination from '../../components/Pagination';
 import Skeleton from '../../components/Skeleton';
 import { useApiCall } from '../../hooks/useApiCall';
 import { formatCep } from '../../utils/format';
-import EmployeeList from './EmployeeList';
+import {
+  getLastPageOffset,
+  readLimit,
+  readOffset,
+  setPaginationParams,
+} from '../../utils/pagination';
+import EmployeeTable from './EmployeeTable';
 import styles from './EmployeesPage.module.css';
 
 const PAGE_SIZE = 10;
@@ -20,15 +27,57 @@ const BUTTON_LABELS = {
   failed: 'Tentar novamente',
 };
 
+const CEP_PATTERN = /^\d{5}-\d{3}$/;
+
+// Na URL o CEP fica só com dígitos; no campo e na API, no formato 00000-000.
+function readCep(params: URLSearchParams) {
+  const cep = params.get('cep') ?? '';
+  return /^\d{8}$/.test(cep) ? formatCep(cep) : '';
+}
+
+function toSearchParams(cep: string, limit: number | null, offset: number) {
+  const params = new URLSearchParams();
+  if (cep) params.set('cep', cep.replace('-', ''));
+  setPaginationParams(params, limit, offset);
+  return params;
+}
+
 function EmployeesPage() {
-  const [cep, setCep] = useState('');
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlCep = readCep(searchParams);
+  const urlLimit = readLimit(searchParams);
+  const limit = urlLimit ?? PAGE_SIZE;
+  const offset = readOffset(searchParams);
+
+  const [cep, setCep] = useState(urlCep);
   const [validationError, setValidationError] = useState('');
-  const [query, setQuery] = useState({ cep: '', offset: 0 });
+  const [seenLocationKey, setSeenLocationKey] = useState(location.key);
   const { state, call, reset } = useApiCall(findActiveEmployeesByCep);
 
-  function search(searchCep: string, offset: number) {
-    setQuery({ cep: searchCep, offset });
-    call(searchCep, PAGE_SIZE, offset);
+  // A URL é a origem da busca: toda navegação atualiza o campo e busca de novo.
+  if (seenLocationKey !== location.key) {
+    setSeenLocationKey(location.key);
+    setCep(urlCep);
+    setValidationError('');
+  }
+
+  useEffect(() => {
+    call(urlCep, limit, offset);
+  }, [location.key, urlCep, limit, offset, call]);
+
+  // Um offset além do fim da lista, digitado na URL, leva para a última página.
+  const isPastLastPage = state.isSuccess && state.data.items.length === 0 && state.data.total > 0;
+  const lastPageOffset = state.isSuccess ? getLastPageOffset(state.data.total, limit) : 0;
+
+  useEffect(() => {
+    if (isPastLastPage) {
+      setSearchParams(toSearchParams(urlCep, urlLimit, lastPageOffset), { replace: true });
+    }
+  }, [isPastLastPage, lastPageOffset, urlCep, urlLimit, setSearchParams]);
+
+  function changePage(nextOffset: number) {
+    setSearchParams(toSearchParams(urlCep, urlLimit, nextOffset));
   }
 
   function handleCepChange(event: ChangeEvent<HTMLInputElement>) {
@@ -40,20 +89,26 @@ function EmployeesPage() {
   function handleClear() {
     setCep('');
     setValidationError('');
-    reset();
+    if (urlCep) setSearchParams(toSearchParams('', urlLimit, 0));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (cep && !/^\d{5}-\d{3}$/.test(cep)) {
+    if (cep && !CEP_PATTERN.test(cep)) {
       setValidationError('Use o formato 00000-000.');
       return;
     }
 
     setValidationError('');
+
     // Ao tentar de novo depois de uma falha, continua na mesma página da lista.
-    search(cep, state.isFailed ? query.offset : 0);
+    if (state.isFailed) {
+      call(urlCep, limit, offset);
+      return;
+    }
+
+    setSearchParams(toSearchParams(cep, urlLimit, 0));
   }
 
   return (
@@ -106,26 +161,21 @@ function EmployeesPage() {
         <Notice
           type="info"
           title="Nada encontrado"
-          message={`Nenhum funcionário ativo ${query.cep ? 'no CEP' + query.cep : ''}`}
+          message={`Nenhum funcionário ativo ${urlCep ? `no CEP ${urlCep}` : ''}`}
           description="Confira se está tudo certo. Funcionários inativos não aparecem nesta busca."
         />
       )}
 
       {state.isSuccess && state.data.total > 0 && (
         <>
-          <EmployeeList
-            title={`${state.data.total} ${state.data.total === 1 ? 'funcionário ativo' : 'funcionários ativos'} no CEP ${query.cep}`}
-            employees={state.data.items}
+          <EmployeeTable employees={state.data.items} />
+          <Pagination
+            count={`${state.data.total} ${state.data.total === 1 ? 'funcionário ativo' : 'funcionários ativos'}${urlCep ? ` no CEP ${urlCep}` : ''}`}
+            offset={offset}
+            pageSize={limit}
+            total={state.data.total}
+            onChange={changePage}
           />
-          {state.data.total > PAGE_SIZE && (
-            <Pagination
-              offset={query.offset}
-              pageSize={PAGE_SIZE}
-              itemCount={state.data.items.length}
-              total={state.data.total}
-              onChange={(offset) => search(query.cep, offset)}
-            />
-          )}
         </>
       )}
     </main>

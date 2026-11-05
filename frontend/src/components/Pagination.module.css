@@ -2,30 +2,39 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px 24px;
+  justify-content: flex-end;
+  gap: 4px 16px;
+  min-height: 44px;
   margin-top: 16px;
 }
 
-.range {
+.text {
   font-size: 14px;
   color: var(--color-muted);
   font-variant-numeric: tabular-nums;
 }
 
-.buttons {
+.pages {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 4px;
+}
+
+.position {
+  margin: 0 4px;
+  white-space: nowrap;
 }
 
 .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
   height: 44px;
-  padding: 0 16px;
+  padding: 0;
   border: 0;
   border-radius: 2px;
   background-color: transparent;
-  font-size: 14px;
-  font-weight: 500;
   transition: background-color 0.18s ease;
 }
 

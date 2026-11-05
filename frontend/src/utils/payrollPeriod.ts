@@ -32,6 +32,20 @@ export function getPayrollPeriod(referenceDate: string) {
     : `${pad(year, 4)}-${pad(month - 1)}`;
 }
 
+// Recusa também datas que não existem, como 2026-02-31.
+export function isValidDate(value: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(year, month - 1, day);
+
+  return date.getMonth() === month - 1 && date.getDate() === day;
+}
+
+export function isValidPeriod(period: string) {
+  return /^\d{4}-(0[1-9]|1[0-2])$/.test(period);
+}
+
 export function getMonthName(period: string) {
   const month = Number(period.split('-')[1]);
   return MONTH_NAMES[month - 1];

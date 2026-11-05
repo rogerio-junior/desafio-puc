@@ -2,12 +2,21 @@
   flex: 0 0 auto;
   height: 48px;
   padding: 0 28px;
-  border: 0;
   border-radius: 2px;
-  background: var(--color-ink);
-  color: var(--color-on-ink);
   font-weight: 500;
   transition: opacity 0.18s ease;
+}
+
+.primary {
+  border: 0;
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+}
+
+.outline {
+  border: 1px solid var(--color-ink);
+  background: transparent;
+  color: var(--color-ink);
 }
 
 .button:hover:not(:disabled) {
@@ -30,4 +39,9 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
+}
+
+.outline:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }

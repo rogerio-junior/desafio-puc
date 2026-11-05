@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.puc_rio.tecgraf.challenge.domain.Page;
+import br.puc_rio.tecgraf.challenge.domain.payment.PaymentInfo;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentRepository;
 import br.puc_rio.tecgraf.challenge.domain.payment.SalaryService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class PaymentController {
     private final SalaryService salaryService;
     private final PaymentRepository paymentRepository;
+    private final PaymentCsvPresenter csvPresenter = new PaymentCsvPresenter(',', StandardCharsets.UTF_8);
 
     @PostMapping("/calculate")
     public SalaryService.ComputeSalaryResult calculate(@Valid @RequestBody CalculateRequest request) {
@@ -42,6 +45,18 @@ public class PaymentController {
         final static String INVALID_REFERENCE_DATE = "only past or present date in the format 'YYYY-MM-DD' (ISO 8601)";
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Page<PaymentInfo> findByMonth(
+        @RequestParam YearMonth month,
+        @RequestParam(defaultValue = "25") @Max(500) Integer limit,
+        @RequestParam(defaultValue = "0") Integer offset
+    ) {
+        final var cursor = new Page.Cursor(String.valueOf(offset), limit);
+        final var criteria = new PaymentRepository.Criteria(null, month);
+
+        return paymentRepository.findByCriteria(criteria, cursor);
+    }
+
     @GetMapping(produces = "text/csv")
     public ResponseEntity<byte[]> exportCsv(@RequestParam YearMonth month) {
         final var cursor = new Page.Cursor(String.valueOf(0), Integer.MAX_VALUE);
@@ -49,8 +64,7 @@ public class PaymentController {
 
         final var payments = paymentRepository.findByCriteria(criteria, cursor);
 
-        final var csvPresenter = new PaymentCsvPresenter(payments, ',', StandardCharsets.UTF_8);
-        final var csv = csvPresenter.present();
+        final var csv = csvPresenter.present(payments);
         
         return ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"users.csv\"")

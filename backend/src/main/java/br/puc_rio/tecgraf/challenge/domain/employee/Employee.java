@@ -21,4 +21,5 @@ public class Employee {
     private Gender gender;
     private BigDecimal baseSalary;
     private String address;
+    private boolean active;
 }

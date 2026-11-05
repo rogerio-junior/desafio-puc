@@ -7,7 +7,7 @@ type FieldProps = ComponentProps<'input'> & {
   onClear?: () => void;
 };
 
-function Field({ label, error, onClear, className, ...inputProps }: FieldProps) {
+function Field({ label, error, onClear, className, children, ...inputProps }: FieldProps) {
   const id = useId();
 
   return (
@@ -17,6 +17,7 @@ function Field({ label, error, onClear, className, ...inputProps }: FieldProps) 
       </label>
       <div className={styles.inputWrapper}>
         <input id={id} className={styles.input} {...inputProps} />
+        {children}
         {onClear && inputProps.value && (
           <button
             type="button"

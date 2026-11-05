@@ -1,6 +1,7 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { ApiError } from '../../api/ApiError';
-import { computeSalary } from '../../api/payments';
+import { useEffect, useState, type ChangeEvent, type SubmitEvent } from 'react';
+import { useLocation, useSearchParams } from 'react-router';
+import { ApiError } from '../../api/client/ApiError';
+import { computeSalary } from '../../api/client/payments';
 import Button from '../../components/Button';
 import Notice from '../../components/Notice';
 import Field from '../../components/Field';
@@ -11,6 +12,7 @@ import {
   getMonthName,
   getPayrollPeriod,
   getToday,
+  isValidDate,
 } from '../../utils/payrollPeriod';
 import SalaryBonusRules from './SalaryBonusRules';
 import SalaryResult from './SalaryResult';
@@ -28,11 +30,33 @@ const BUTTON_LABELS = {
   ),
 };
 
+function readReferenceDate(params: URLSearchParams, today: string) {
+  const date = params.get('referenceDate') ?? '';
+  return isValidDate(date) ? date : today;
+}
+
 function ComputeSalaryPage() {
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [today] = useState(getToday);
-  const [referenceDate, setReferenceDate] = useState(today);
+  const [referenceDate, setReferenceDate] = useState(() => readReferenceDate(searchParams, today));
   const [validationError, setValidationError] = useState('');
+  const [seenLocationKey, setSeenLocationKey] = useState(location.key);
   const { state, call, reset } = useApiCall(computeSalary);
+
+  // Mudanças na URL que não vieram do campo de data, como o menu ou o botão voltar.
+  const isExternalNavigation = !location.state?.fromDateInput;
+  if (seenLocationKey !== location.key) {
+    setSeenLocationKey(location.key);
+    if (isExternalNavigation) {
+      setReferenceDate(readReferenceDate(searchParams, today));
+      setValidationError('');
+    }
+  }
+
+  useEffect(() => {
+    if (isExternalNavigation) reset();
+  }, [location.key, isExternalNavigation, reset]);
 
   const isDateRejected =
     state.isFailed &&
@@ -43,12 +67,18 @@ function ComputeSalaryPage() {
   const periodRange = formatPeriodRange(period);
 
   function handleDateChange(event: ChangeEvent<HTMLInputElement>) {
-    setReferenceDate(event.target.value);
+    const date = event.target.value;
+
+    setReferenceDate(date);
     setValidationError('');
     reset();
+    setSearchParams(date ? { referenceDate: date } : {}, {
+      replace: true,
+      state: { fromDateInput: true },
+    });
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (!referenceDate) {

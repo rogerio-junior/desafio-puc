@@ -1,0 +1,45 @@
+.field {
+  flex: 0 1 240px;
+}
+
+.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  color: #6f6859;
+  white-space: pre;
+  pointer-events: none;
+}
+
+.maskTyped {
+  visibility: hidden;
+}
+
+.picker {
+  position: absolute;
+  top: 2px;
+  right: 44px;
+  box-sizing: border-box;
+  width: 32px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color-scheme: light;
+  cursor: pointer;
+}
+
+.picker::-webkit-datetime-edit {
+  display: none;
+}
+
+.picker::-webkit-calendar-picker-indicator {
+  margin: auto;
+  padding: 0;
+  cursor: pointer;
+}

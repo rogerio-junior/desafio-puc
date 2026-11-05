@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import br.puc_rio.tecgraf.challenge.domain.Page;
+import br.puc_rio.tecgraf.challenge.domain.Presenter;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentInfo;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +14,11 @@ import lombok.RequiredArgsConstructor;
 public class PaymentCsvPresenter implements Presenter<Page<PaymentInfo>, byte[]> {
     private static final NumberFormat FORMATTER = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR"));
 
-    private final Page<PaymentInfo> payments;
     @Getter private final char separator; // TODO: Validar , e ;
     @Getter private final Charset charset;
 
     @Override
-    public byte[] present() {
+    public byte[] present(final Page<PaymentInfo> payments) {
         final var csv = new StringBuilder();
 
         // Header

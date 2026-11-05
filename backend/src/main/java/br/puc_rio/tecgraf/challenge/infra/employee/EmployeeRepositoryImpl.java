@@ -1,8 +1,11 @@
 package br.puc_rio.tecgraf.challenge.infra.employee;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import br.puc_rio.tecgraf.challenge.domain.Page;
+import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
 import br.puc_rio.tecgraf.challenge.domain.employee.Employee;
 import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +15,15 @@ import lombok.RequiredArgsConstructor;
 public class EmployeeRepositoryImpl implements EmployeeRepository {
     private final EmployeeJpaRepository jpaRepository;
     private final EmployeeMapper mapper;
+
+    @Override
+    public Optional<Employee> findBySocialNumber(SocialNumber socialNumber) {
+        if (socialNumber == null) {
+            return Optional.empty();
+        }
+
+        return jpaRepository.findById(socialNumber.getNumber()).map(mapper::toDomain);
+    }
 
     // Assim como em PaymentRepositoryImpl, o afterKey do cursor é usado como offset
     @Override

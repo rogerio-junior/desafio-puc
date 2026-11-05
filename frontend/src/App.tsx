@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import Header from './components/Header';
 import ComputeSalaryPage from './pages/computeSalary/ComputeSalaryPage';
 import EmployeesPage from './pages/employees/EmployeesPage';
+import PaymentsPage from './pages/payments/PaymentsPage';
 import styles from './App.module.css';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<ComputeSalaryPage />} />
+            <Route path="/pagamentos" element={<PaymentsPage />} />
             <Route path="/funcionarios" element={<EmployeesPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

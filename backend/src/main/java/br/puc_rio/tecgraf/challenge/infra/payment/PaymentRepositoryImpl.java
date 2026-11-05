@@ -1,6 +1,7 @@
 package br.puc_rio.tecgraf.challenge.infra.payment;
 
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -27,13 +28,13 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     public Page<PaymentInfo> findByCriteria(Criteria criteria, Page.Cursor cursor) {
         // A construção dos critérios dessa maneira evita ter que criar vários ifs
         final var FILTERS = """
-            (:socialNumber IS NULL OR p.id_employee = :socialNumber AS VARCHAR)
-            AND (:year IS NULL OR p.year =:year)
+            (:socialNumber IS NULL OR p.id_employee = :socialNumber)
+            AND (:year IS NULL OR p.year = :year)
             AND (:month IS NULL OR p.month = :month)
         """;
 
         final var SQL = """
-            SELECT ROW_NUMBER() OVER (ORDER BY p.year DESC, p.month, e.first_name, e.last_name, p.id_employee) AS key,
+            SELECT ROW_NUMBER() OVER (ORDER BY p.year DESC, p.month DESC, e.first_name, e.last_name, p.id_employee) AS key,
                 p.id_employee,
                 e.first_name,
                 e.last_name,
@@ -54,19 +55,20 @@ public class PaymentRepositoryImpl implements PaymentRepository {
         final var year = period == null ? null : period.getYear();
         final var month = period == null ? null : period.getMonthValue();
 
+        // Somente os parâmetros não obrigatórios precisam de especificar o tipo para o banco entender quando forem nulos
         final var items = jdbcClient.sql(SQL)
-            .param("socialNumber", socialNumber)
-            .param("year", year)
-            .param("month", month)
+            .param("socialNumber", socialNumber, Types.VARCHAR)
+            .param("year", year, Types.INTEGER)
+            .param("month", month, Types.INTEGER)
             .param("limit", cursor.limit())
             .param("offset", Integer.valueOf(cursor.afterKey())) // TODO: Corrigir tipagem
             .query(PaymentInfo.class)
             .list();
 
         var total = jdbcClient.sql(COUNT_SQL)
-            .param("socialNumber", socialNumber)
-            .param("year", year)
-            .param("month", month)
+            .param("socialNumber", socialNumber, Types.VARCHAR)
+            .param("year", year, Types.INTEGER)
+            .param("month", month, Types.INTEGER)
             .query(Long.class)
             .single();
 

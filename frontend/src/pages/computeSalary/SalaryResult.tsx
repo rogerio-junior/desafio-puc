@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import type { ComputeSalaryResult } from '../../api/payments';
+import type { ComputeSalaryResult } from '../../api/models/Payment';
 import { useCountUp } from '../../hooks/useCountUp';
 import { getMonthName } from '../../utils/payrollPeriod';
 import styles from './SalaryResult.module.css';
