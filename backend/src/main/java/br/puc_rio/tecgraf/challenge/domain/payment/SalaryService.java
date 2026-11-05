@@ -1,7 +1,6 @@
 package br.puc_rio.tecgraf.challenge.domain.payment;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 
 import org.springframework.stereotype.Service;
 

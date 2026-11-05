@@ -1,12 +1,11 @@
 package br.puc_rio.tecgraf.challenge.domain.payment;
 
+import static br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployeeFactory.employee;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployeeFactory.employee;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,22 +14,13 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.puc_rio.tecgraf.challenge.domain.Gender;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
-import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeType;
-import br.puc_rio.tecgraf.challenge.domain.payment.employees.FixedTermEmployee;
-import br.puc_rio.tecgraf.challenge.domain.payment.employees.InternEmployee;
-import br.puc_rio.tecgraf.challenge.domain.payment.employees.PermanentEmployee;
-import br.puc_rio.tecgraf.challenge.domain.payment.employees.ScholarEmployee;
 
 @ExtendWith(MockitoExtension.class)
 class SalaryServiceUTest {

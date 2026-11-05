@@ -2,8 +2,6 @@ package br.puc_rio.tecgraf.challenge.domain.payment;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 import br.puc_rio.tecgraf.challenge.domain.Gender;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
