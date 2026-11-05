@@ -3,6 +3,11 @@
   --color-muted: #5c564a;
   --color-green: #1e6b47;
   --color-line: rgba(36, 33, 28, 0.16);
+  --color-line-strong: rgba(36, 33, 28, 0.35);
+  --color-on-ink: #fbf8f1;
+  --color-danger: #96301f;
+  --color-danger-bg: rgba(150, 48, 31, 0.07);
+  --color-danger-line: rgba(150, 48, 31, 0.35);
   --color-bg-light: #fcfaf3;
   --color-bg-warm: #f3ecdd;
   --color-bg-base: #f7f2e7;
@@ -30,7 +35,32 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: default;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-ink);
   outline-offset: 3px;
+}
+
+.rise {
+  animation: rise 0.42s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
 }

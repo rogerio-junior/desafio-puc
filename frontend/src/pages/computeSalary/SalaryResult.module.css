@@ -1,0 +1,66 @@
+.result {
+  margin-top: 32px;
+}
+
+.title {
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+
+.rule {
+  height: 1px;
+  background: var(--color-line-strong);
+}
+
+.totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 56px;
+  margin-top: 20px;
+}
+
+.total {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.totalLabel {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.totalValue {
+  font-family: var(--font-accent);
+  font-weight: 400;
+  font-size: 72px;
+  line-height: 1;
+  font-variant-numeric: lining-nums;
+}
+
+.confirmed {
+  color: var(--color-green);
+}
+
+.nothing {
+  margin: 16px 0 0;
+  color: var(--color-muted);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 12px;
+  font-weight: 500;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(36, 33, 28, 0.35);
+  transition: text-decoration-color 0.18s ease;
+}
+
+.link:hover {
+  text-decoration-color: var(--color-ink);
+}

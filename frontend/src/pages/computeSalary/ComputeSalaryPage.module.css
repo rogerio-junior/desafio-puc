@@ -1,0 +1,51 @@
+.page {
+  padding-top: clamp(40px, 7vw, 88px);
+  container-type: inline-size;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-accent);
+  font-weight: 400;
+  font-size: 7cqi;
+  line-height: 1.02;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+}
+
+.month {
+  font-style: italic;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
+  gap: 56px clamp(48px, 8vw, 112px);
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0 24px;
+}
+
+.dateField {
+  flex: 1 1 220px;
+}
+
+/* Altura do label (21px) + gap do Field (4px): alinha o botão ao input
+   e continua alinhado quando o erro aparece embaixo do input.
+   Quando o botão quebra de linha, essa margem vira o espaço entre eles. */
+.form > button {
+  margin-top: 25px;
+}
+
+.note {
+  margin: 20px 0 0;
+  max-width: 620px;
+  font-size: 18px;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}

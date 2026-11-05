@@ -1,0 +1,33 @@
+.button {
+  flex: 0 0 auto;
+  height: 48px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+  font-weight: 500;
+  transition: opacity 0.18s ease;
+}
+
+.button:hover:not(:disabled) {
+  opacity: 0.84;
+}
+
+.button:disabled {
+  opacity: 0.72;
+}
+
+.labels {
+  display: inline-grid;
+  justify-items: center;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.label {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}

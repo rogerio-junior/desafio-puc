@@ -1,0 +1,39 @@
+.notice {
+  margin-top: 32px;
+  padding: 20px 24px;
+  border-radius: 2px;
+  background: var(--notice-bg);
+}
+
+/* Cada tipo só define as cores usadas pela estrutura do Notice. */
+.error {
+  --notice-color: var(--color-danger);
+  --notice-bg: var(--color-danger-bg);
+  --notice-line: var(--color-danger-line);
+}
+
+.title {
+  margin: 0 0 10px;
+  font-weight: 600;
+  color: var(--notice-color);
+}
+
+.rule {
+  height: 1px;
+  background: var(--notice-line);
+}
+
+.message {
+  margin: 14px 0 0;
+  font-family: var(--font-accent);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--notice-color);
+}
+
+.description {
+  margin: 6px 0 0;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}

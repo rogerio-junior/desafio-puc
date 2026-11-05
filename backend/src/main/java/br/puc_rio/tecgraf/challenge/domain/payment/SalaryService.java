@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class SalaryService {
     private final PaymentRepository paymentRepository;
 
-    public ComputeSalaryResult computeSalayOf(LocalDate referenceDate) {
+    public ComputeSalaryResult computeSalaryOf(LocalDate referenceDate) {
         var payrollRef = new PayrollReference(referenceDate);
         var pendings = paymentRepository.findPendingsOn(payrollRef.getPeriod());
         var payments = pendings.stream().map(p -> computeSalary(p, payrollRef)).toList();

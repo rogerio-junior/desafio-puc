@@ -1,0 +1,32 @@
+.title {
+  margin: 0 0 16px;
+  font-family: var(--font-accent);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.15;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.rule {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  padding: 14px 0;
+  border-top: 1px solid var(--color-line);
+}
+
+.description {
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+.value {
+  font-weight: 500;
+  white-space: nowrap;
+}
