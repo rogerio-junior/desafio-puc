@@ -12,7 +12,7 @@ function Header() {
     <header className={styles.header}>
       <Link to="/" className={styles.brand}>
         <span className={styles.brandName}>
-          Pagamento<span className={styles.brandDot}>.</span>Folha
+          Folha<span className={styles.brandDot}>.</span>Pagamento
         </span>
         <span className={styles.brandTagline}>DESAFIO PUC RIO</span>
       </Link>

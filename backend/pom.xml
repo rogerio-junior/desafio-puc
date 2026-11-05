@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.puc_rio.tecgraf</groupId>
-	<artifactId>demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>puc-challenge</artifactId>
+	<version>v1</version>
 	<name/>
 	<description/>
 	<url/>

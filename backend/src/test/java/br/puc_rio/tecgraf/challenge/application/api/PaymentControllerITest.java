@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import br.puc_rio.tecgraf.challenge.domain.payment.PaymentRepository;
 import br.puc_rio.tecgraf.challenge.domain.payment.PayrollReference;
 import br.puc_rio.tecgraf.challenge.domain.payment.SalaryService;
 import br.puc_rio.tecgraf.challenge.domain.payment.SalaryService.ComputeSalaryResult;
@@ -32,6 +33,9 @@ class PaymentControllerITest {
 
     @MockitoBean
     private SalaryService salaryService;
+
+    @MockitoBean
+    private PaymentRepository paymentRepository;
 
     @Test
     void calculate_shouldAcceptRequest() throws Exception {
