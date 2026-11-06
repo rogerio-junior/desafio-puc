@@ -20,6 +20,7 @@ import br.puc_rio.tecgraf.challenge.domain.payment.PaymentRepository;
 import br.puc_rio.tecgraf.challenge.domain.payment.SalaryService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +49,8 @@ public class PaymentController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<EmployeePayment> findByMonth(
         @RequestParam YearMonth month,
-        @RequestParam(defaultValue = "25") @Max(500) Integer limit,
-        @RequestParam(defaultValue = "0") Integer offset
+        @RequestParam(defaultValue = "25") @Min(1) @Max(500) Integer limit,
+        @RequestParam(defaultValue = "0") @Min(0) Integer offset
     ) {
         final var range = new Page.Range(offset, limit);
         final var criteria = new PaymentRepository.Criteria(null, month);

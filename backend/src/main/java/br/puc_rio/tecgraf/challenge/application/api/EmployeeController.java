@@ -16,6 +16,7 @@ import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeRepository;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentHistory;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentHistoryService;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -29,8 +30,8 @@ public class EmployeeController {
     public PaymentHistory findPayments(
         @PathVariable SocialNumber employeeId,
         @RequestParam(required = false) YearMonth month,
-        @RequestParam(defaultValue = "25") @Max(500) Integer limit,
-        @RequestParam(defaultValue = "0") Integer offset
+        @RequestParam(defaultValue = "25") @Min(1) @Max(500) Integer limit,
+        @RequestParam(defaultValue = "0") @Min(0) Integer offset
     ) throws NotFoundException {
         var range = new Page.Range(offset, limit);
 
@@ -40,8 +41,8 @@ public class EmployeeController {
     @GetMapping
     public Page<EmployeeCep> findByActiveAndCep(
         @RequestParam(required = false) String cep,
-        @RequestParam(defaultValue = "25") @Max(500) Integer limit,
-        @RequestParam(defaultValue = "0") Integer offset
+        @RequestParam(defaultValue = "25") @Min(1) @Max(500) Integer limit,
+        @RequestParam(defaultValue = "0") @Min(0) Integer offset
     ) {
         final var range = new Page.Range(offset, limit);
 
