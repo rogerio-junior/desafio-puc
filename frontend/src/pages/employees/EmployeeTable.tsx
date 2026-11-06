@@ -35,7 +35,7 @@ function EmployeeTable({ employees }: EmployeeTableProps) {
         </div>
         {employees.map((employee) => (
           <div
-            key={employee.id.number}
+            key={employee.id}
             className={`${styles.columns} ${styles.row}`}
           >
             <div className={styles.nameCell}>
@@ -44,12 +44,12 @@ function EmployeeTable({ employees }: EmployeeTableProps) {
               </span>
               <Link
                 className={styles.paymentsLink}
-                to={`/pagamentos?cpf=${employee.id.number}`}
+                to={`/pagamentos?cpf=${employee.id}`}
               >
                 Ver todos os pagamentos
               </Link>
             </div>
-            <span className={styles.cell}>{formatCpf(employee.id.number)}</span>
+            <span className={styles.cell}>{formatCpf(employee.id)}</span>
             <span className={styles.cell}>{formatDate(employee.birthDate)}</span>
             <span className={styles.cell}>{GENDER_LABELS[employee.gender]}</span>
             <span className={styles.cell}>{EMPLOYEE_TYPE_LABELS[employee.type]}</span>

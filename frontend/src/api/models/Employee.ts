@@ -3,7 +3,7 @@ export type EmployeeType = 'PERMANENT' | 'FIXED_TERM' | 'INTERN' | 'SCHOLAR';
 export type Gender = 'M' | 'F' | 'N';
 
 export type Employee = {
-  id: { number: string };
+  id: string;
   type: EmployeeType;
   firstName: string;
   lastName: string;

@@ -2,6 +2,7 @@ package br.puc_rio.tecgraf.challenge.application.api;
 
 import java.util.stream.Collectors;
 
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         var body = ProblemDetail.forStatusAndDetail(status, "Request body is missing or is not valid JSON");
+
+        return handleExceptionInternal(ex, body, headers, status, request);
+    }
+
+    // Parâmetros de path/query fora do formato (ex.: CPF ou mês inválidos) usam a mensagem da causa original
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        var body = ProblemDetail.forStatusAndDetail(status, ex.getMostSpecificCause().getMessage());
 
         return handleExceptionInternal(ex, body, headers, status, request);
     }

@@ -25,16 +25,16 @@ public class EmployeeController {
     private final PaymentHistoryService paymentHistoryService;
     private final EmployeeRepository employeeRepository;
 
-    @GetMapping("/{cpf}/payments")
+    @GetMapping("/{employeeId}/payments")
     public PaymentHistory findPayments(
-        @PathVariable String cpf,
+        @PathVariable SocialNumber employeeId,
         @RequestParam(required = false) YearMonth month,
         @RequestParam(defaultValue = "25") @Max(500) Integer limit,
         @RequestParam(defaultValue = "0") Integer offset
     ) throws NotFoundException {
         var cursor = new Page.Cursor(String.valueOf(offset), limit);
 
-        return paymentHistoryService.getHistory(SocialNumber.of(cpf), month, cursor);
+        return paymentHistoryService.getHistory(employeeId, month, cursor);
     }
 
     @GetMapping
