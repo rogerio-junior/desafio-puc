@@ -27,6 +27,6 @@ public class Employee {
     // O cálculo de salário fica em payment.Payee (beneficiário), que é a
     // visão de Employee usada pela folha de pagamento, contendo apenas os
     // campos necessários para o cálculo e campos adicionais, como o
-    // workedWeekendDays, que por sua vez não faria sentido no contexto
+    // weekendDaysWorked, que por sua vez não faria sentido no contexto
     // de criação de um funcionário.
 }

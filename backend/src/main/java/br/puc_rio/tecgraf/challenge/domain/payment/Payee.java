@@ -18,7 +18,7 @@ public abstract class Payee {
     private final LocalDate birthDate;
     private final Gender gender;
     private final BigDecimal baseSalary;
-    private final int workedWeekendDays;
+    private final int weekendDaysWorked;
 
     public abstract EmployeeType getType();
     

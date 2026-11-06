@@ -11,5 +11,5 @@ public record PayeeProjection(
     LocalDate birthDate,
     Gender gender,
     BigDecimal baseSalary,
-    int workedWeekendDays
+    int weekendDaysWorked
 ) {}

@@ -8,8 +8,8 @@ import br.puc_rio.tecgraf.challenge.domain.payment.PayrollReference;
 public class WeekendBonus implements SalaryRule {
     @Override
     public BigDecimal computeSalary(Payee payee, PayrollReference payrollRef, BigDecimal currentSalary) {
-        if (payee.getWorkedWeekendDays() > 0) {
-            var bonus = new BigDecimal("40").multiply(BigDecimal.valueOf(payee.getWorkedWeekendDays()));
+        if (payee.getWeekendDaysWorked() > 0) {
+            var bonus = new BigDecimal("40").multiply(BigDecimal.valueOf(payee.getWeekendDaysWorked()));
 
             return currentSalary.add(bonus);
         }

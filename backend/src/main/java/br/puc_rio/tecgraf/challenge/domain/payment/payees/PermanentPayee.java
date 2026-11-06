@@ -16,8 +16,8 @@ public class PermanentPayee extends Payee {
     private static final SalaryRule SALARY_RULE = SalaryRule.compound(new BirthdayBonus(), new ElderlyBonus());
 
     public PermanentPayee(SocialNumber socialNumber, LocalDate birthDate, Gender gender, BigDecimal baseSalary,
-            int workedWeekendDays) {
-        super(socialNumber, birthDate, gender, baseSalary, workedWeekendDays);
+            int weekendDaysWorked) {
+        super(socialNumber, birthDate, gender, baseSalary, weekendDaysWorked);
     }
 
     @Override

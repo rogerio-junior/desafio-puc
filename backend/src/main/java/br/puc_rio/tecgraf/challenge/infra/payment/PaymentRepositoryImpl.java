@@ -83,7 +83,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
                 e.birth_date,
                 e.gender,
                 e.base_salary,
-                COUNT(DISTINCT CAST(a.entrance AS DATE)) AS worked_weekend_days
+                COUNT(DISTINCT CAST(a.entrance AS DATE)) AS weekend_days_worked
             FROM employee e
             LEFT JOIN payment p ON p.id_employee = e.id_social_number AND p.year = :year AND p.month = :month
             LEFT JOIN attendance a ON a.id_employee = e.id_social_number AND a.entrance >= :start AND a.entrance < :end

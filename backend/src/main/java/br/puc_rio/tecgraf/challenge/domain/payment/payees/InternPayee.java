@@ -15,8 +15,8 @@ public class InternPayee extends Payee {
     private static final SalaryRule SALARY_RULE = new WeekendBonus();
 
     public InternPayee(SocialNumber socialNumber, LocalDate birthDate, Gender gender, BigDecimal baseSalary,
-            int workedWeekendDays) {
-        super(socialNumber, birthDate, gender, baseSalary, workedWeekendDays);
+            int weekendDaysWorked) {
+        super(socialNumber, birthDate, gender, baseSalary, weekendDaysWorked);
     }
 
     @Override

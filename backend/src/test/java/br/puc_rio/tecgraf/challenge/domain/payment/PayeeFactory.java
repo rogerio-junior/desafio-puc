@@ -21,14 +21,14 @@ public class PayeeFactory {
         return new PermanentPayee(SocialNumber.of(socialNumber), BIRTHDAY_OUT_OF_PERIOD, Gender.M, BASE_SALARY, 0);
     }
 
-    public static Payee payee(EmployeeType type, LocalDate birthDate, Gender gender, int workedWeekendDays) {
+    public static Payee payee(EmployeeType type, LocalDate birthDate, Gender gender, int weekendDaysWorked) {
         final var socialNumber = SocialNumber.of("92572993848");
 
         return switch (type) {
-            case PERMANENT -> new PermanentPayee(socialNumber, birthDate, gender, BASE_SALARY, workedWeekendDays);
-            case FIXED_TERM -> new FixedTermPayee(socialNumber, birthDate, gender, BASE_SALARY, workedWeekendDays);
-            case INTERN -> new InternPayee(socialNumber, birthDate, gender, BASE_SALARY, workedWeekendDays);
-            case SCHOLAR -> new ScholarPayee(socialNumber, birthDate, gender, BASE_SALARY, workedWeekendDays);
+            case PERMANENT -> new PermanentPayee(socialNumber, birthDate, gender, BASE_SALARY, weekendDaysWorked);
+            case FIXED_TERM -> new FixedTermPayee(socialNumber, birthDate, gender, BASE_SALARY, weekendDaysWorked);
+            case INTERN -> new InternPayee(socialNumber, birthDate, gender, BASE_SALARY, weekendDaysWorked);
+            case SCHOLAR -> new ScholarPayee(socialNumber, birthDate, gender, BASE_SALARY, weekendDaysWorked);
         };
     }
 }
