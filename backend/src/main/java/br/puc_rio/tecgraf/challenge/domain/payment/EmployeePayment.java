@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 // Projeção que une dados do funcionário com seu pagamento, usado pelas consultas
 public record EmployeePayment(
-    long key,
     String employeeId,
     String firstName,
     String lastName,

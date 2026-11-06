@@ -32,9 +32,9 @@ public class EmployeeController {
         @RequestParam(defaultValue = "25") @Max(500) Integer limit,
         @RequestParam(defaultValue = "0") Integer offset
     ) throws NotFoundException {
-        var cursor = new Page.Cursor(String.valueOf(offset), limit);
+        var range = new Page.Range(offset, limit);
 
-        return paymentHistoryService.getHistory(employeeId, month, cursor);
+        return paymentHistoryService.getHistory(employeeId, month, range);
     }
 
     @GetMapping
@@ -43,8 +43,8 @@ public class EmployeeController {
         @RequestParam(defaultValue = "25") @Max(500) Integer limit,
         @RequestParam(defaultValue = "0") Integer offset
     ) {
-        final var cursor = new Page.Cursor(String.valueOf(offset), limit);
+        final var range = new Page.Range(offset, limit);
 
-        return employeeRepository.findByActiveAndCep(true, cep, cursor);
+        return employeeRepository.findByActiveAndCep(true, cep, range);
     }
 }

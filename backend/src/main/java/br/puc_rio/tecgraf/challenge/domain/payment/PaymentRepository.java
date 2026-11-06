@@ -8,7 +8,7 @@ import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
 
 public interface PaymentRepository {
     // Filtros nulos em Criteria são ignorados
-    Page<EmployeePayment> findByCriteria(Criteria criteria, Page.Cursor cursor);
+    Page<EmployeePayment> findByCriteria(Criteria criteria, Page.Range range);
 
     List<Payee> findPendingPayeesOn(YearMonth payrollPeriod);
     

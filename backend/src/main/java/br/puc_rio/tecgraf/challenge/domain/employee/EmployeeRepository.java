@@ -19,5 +19,5 @@ public interface EmployeeRepository {
        );
     }
 
-    Page<Employee> findByActiveAndCep(boolean active, String cep, Page.Cursor cursor);
+    Page<Employee> findByActiveAndCep(boolean active, String cep, Page.Range range);
 }

@@ -51,18 +51,18 @@ public class PaymentController {
         @RequestParam(defaultValue = "25") @Max(500) Integer limit,
         @RequestParam(defaultValue = "0") Integer offset
     ) {
-        final var cursor = new Page.Cursor(String.valueOf(offset), limit);
+        final var range = new Page.Range(offset, limit);
         final var criteria = new PaymentRepository.Criteria(null, month);
 
-        return paymentRepository.findByCriteria(criteria, cursor);
+        return paymentRepository.findByCriteria(criteria, range);
     }
 
     @GetMapping(produces = "text/csv")
     public ResponseEntity<byte[]> exportCsv(@RequestParam YearMonth month) {
-        final var cursor = new Page.Cursor(String.valueOf(0), Integer.MAX_VALUE);
+        final var range = new Page.Range(0, Integer.MAX_VALUE);
         final var criteria = new PaymentRepository.Criteria(null, month);
 
-        final var payments = paymentRepository.findByCriteria(criteria, cursor);
+        final var payments = paymentRepository.findByCriteria(criteria, range);
 
         final var csv = csvPresenter.present(payments);
         

@@ -4,10 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+// Resolvi dar nomes aos tipos para ficar mais fácil de me encontrar no código
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum EmployeeType {
-    // Resolvi dar nomes aos tipos para ficar mais fácil de me encontrar no código
     PERMANENT("A"), // Contrato por tempo indeterminado
     FIXED_TERM("B"), // Contrato a prazo
     INTERN("C"), // Estagiário

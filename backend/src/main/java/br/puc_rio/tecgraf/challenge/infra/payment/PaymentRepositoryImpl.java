@@ -22,10 +22,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     private final JdbcClient jdbcClient;
     private final PayeeMapper mapper;
 
-    // Ordem alfabética por nome e sobrenome. O CPF desempata homônimos e, no mesmo funcionário, o pagamento mais recente vem primeiro.
-    // A paginação é por keyset: os valores negativos permitem comparar ano e mês (DESC) na mesma comparação de linha dos demais campos (ASC).
     @Override
-    public Page<EmployeePayment> findByCriteria(Criteria criteria, Page.Cursor cursor) {
+    public Page<EmployeePayment> findByCriteria(Criteria criteria, Page.Range range) {
         // A construção dos critérios dessa maneira evita ter que criar vários ifs
         final var FILTERS = """
             (:employeeId IS NULL OR p.id_employee = :employeeId)
@@ -34,8 +32,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
         """;
 
         final var SQL = """
-            SELECT ROW_NUMBER() OVER (ORDER BY p.year DESC, p.month DESC, e.first_name, e.last_name, p.id_employee) AS key,
-                p.id_employee AS employee_id,
+            SELECT p.id_employee AS employee_id,
                 e.first_name,
                 e.last_name,
                 p.month,
@@ -44,7 +41,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
             FROM payment p
             JOIN employee e ON e.id_social_number = p.id_employee
             WHERE %s
-            ORDER BY key
+            ORDER BY p.year DESC, p.month DESC, e.first_name, e.last_name, p.id_employee
             LIMIT :limit OFFSET :offset
         """.formatted(FILTERS);
 
@@ -60,8 +57,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
             .param("employeeId", employeeId, Types.VARCHAR)
             .param("year", year, Types.INTEGER)
             .param("month", month, Types.INTEGER)
-            .param("limit", cursor.limit())
-            .param("offset", Integer.valueOf(cursor.afterKey())) // TODO: Corrigir tipagem
+            .param("limit", range.limit())
+            .param("offset", range.offset())
             .query(EmployeePayment.class)
             .list();
 
@@ -72,7 +69,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
             .query(Long.class)
             .single();
 
-        return new Page<>(items, cursor, total);
+        return new Page<>(items, range, total);
     }
 
     @Override

@@ -3,37 +3,28 @@ package br.puc_rio.tecgraf.challenge.domain;
 import java.util.List;
 import java.util.function.Function;
 
-// Classe mínima para representar a paginação e poder trafegar essa informação entre as camadas
-// TODO: Tentar paginar por afterKey
-public record Page<T>(List<T> items, Cursor cursor, long total) {
+// Classe mínima para representar a paginação e poder trafegar essa informação entre as camadas.
+// Decidi fazer a paginação é por offset, visto que o volume de dados do desafio é pequeno.
+// Com volumes grandes eu usaria keyset (afterKey), que aumenta a complexidade.
+public record Page<T>(List<T> items, Range range, long total) {
     public Page(List<T> items) {
-        this(items, new Cursor(null, Math.max(items.size(), 1)), items.size()); // O Cursor exige limit > 0, mesmo em lista vazia
-    }
-
-    public Cursor nexCursor(Function<T, String> keyExtractor) {
-        if (items.size() == 0) {
-            return new Cursor(null, cursor().limit());
-        }
-
-        return new Cursor(keyExtractor.apply(items().getLast()), cursor.limit());
+        this(items, new Range(0, Math.max(items.size(), 1)), items.size());
     }
 
     public <R> Page<R> map(Function<T, R> mapFunction) {
         var mappedItems = items().stream().map(mapFunction).toList();
 
-        return new Page<>(mappedItems, cursor(), total());
+        return new Page<>(mappedItems, range(), total());
     }
 
-    public record Cursor(String afterKey, int limit) {
-        public Cursor {
-            if (limit <= 0) {
-                throw new IllegalArgumentException("limit must be greater than 0");
+    public record Range(int offset, int limit) {
+        public Range {
+            if (offset < 0) {
+                throw new IllegalArgumentException("offset must be greater than or equal to 0");
             }
 
-            if (afterKey == null) {
-                afterKey = String.valueOf(0);
-            } else if (!afterKey.matches("\\d+")) {
-                throw new IllegalArgumentException("afterKey must be null or an positive integer number");
+            if (limit <= 0) {
+                throw new IllegalArgumentException("limit must be greater than 0");
             }
         }
     }

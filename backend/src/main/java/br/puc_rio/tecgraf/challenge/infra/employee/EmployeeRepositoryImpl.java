@@ -25,18 +25,17 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
         return jpaRepository.findById(id.getNumber()).map(mapper::toDomain);
     }
 
-    // Assim como em PaymentRepositoryImpl, o afterKey do cursor é usado como offset
     @Override
-    public Page<Employee> findByActiveAndCep(boolean active, String cep, Page.Cursor cursor) {
-        final var offset = Long.parseLong(cursor.afterKey());
+    public Page<Employee> findByActiveAndCep(boolean active, String cep, Page.Range range) {
+        final var offset = range.offset();
         final var sanitizedCep = cep != null && cep.isBlank() ? null : cep;
 
-        final var employees = jpaRepository.findByActiveAndCep(active, sanitizedCep, cursor.limit(), offset).stream()
+        final var employees = jpaRepository.findByActiveAndCep(active, sanitizedCep, range.limit(), offset).stream()
             .map(mapper::toDomain)
             .toList();
 
         final var total = jpaRepository.countByActiveAndCep(active, sanitizedCep);
 
-        return new Page<>(employees, cursor, total);
+        return new Page<>(employees, range, total);
     }
 }
