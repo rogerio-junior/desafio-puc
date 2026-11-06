@@ -10,11 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-// Mudou a perspectiva: Ao invés de ser uma classe Employee geral, é uma projeção/visão dessa entidade
-// Isso permite trazer para o domínio de payments apenas o que se é necessário para calcular e
-// Representar nesse domínio
 @Getter
-@RequiredArgsConstructor // Talvez validar as constraints
+@RequiredArgsConstructor // TODO: Validar as constraints?
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class PaymentEmployee {
     @EqualsAndHashCode.Include private final SocialNumber socialNumber;
@@ -25,8 +22,11 @@ public abstract class PaymentEmployee {
 
     public abstract EmployeeType getType();
     
-    // Mudei de double para BigDecimal para impedir erros de precisão
-    // Mudei de Date para PayrollReference para manter unida a regra de data de referência + mês de competência, além de usar API "nova" de datas do Java
-    // Geralmente eu separaria os dados do comportamento nesse caso
+    // Mudei de double para BigDecimal para impedir erros de precisão.
+    // Mudei de Date para PayrollReference para manter unida a regra de data 
+    // de referência + mês de competência, além de usar API "nova" de datas do Java.
+    // Geralmente eu separaria os dados do comportamento para impedir que a
+    // classe fique inchada futuramente ao adicionar mais funções conforme
+    // o sistema cresce.
     public abstract BigDecimal computeSalary(PayrollReference payrollRef);
 }

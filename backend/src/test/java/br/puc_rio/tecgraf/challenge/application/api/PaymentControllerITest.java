@@ -104,6 +104,6 @@ class PaymentControllerITest {
     }
 
     private SalaryService.ComputeSalaryResult mockComputeSalaryResult(LocalDate refDate) {
-        return new ComputeSalaryResult(new PayrollReference(refDate), 12, 15);
+        return new ComputeSalaryResult(PayrollReference.of(refDate), 12, 15);
     }
 }

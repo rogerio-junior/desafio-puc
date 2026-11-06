@@ -11,12 +11,12 @@ import lombok.RequiredArgsConstructor;
 public class SalaryService {
     private final PaymentRepository paymentRepository;
 
-    public ComputeSalaryResult computeSalaryOf(LocalDate referenceDate) {
-        var payrollRef = new PayrollReference(referenceDate);
+    public ComputeSalaryResult computeSalaryOf(final LocalDate referenceDate) {
+        var payrollRef = PayrollReference.of(referenceDate);
         var pendings = paymentRepository.findPendingsOn(payrollRef.getPeriod());
         var payments = pendings.stream().map(p -> computeSalary(p, payrollRef)).toList();
 
-        // Em aplicações de grande porte, usaria processamento assíncrono, provavelmente em 2 etapas:
+        // Em aplicações de grande porte eu usaria processamento assíncrono, provavelmente em 2 etapas:
         // 1) Identificação dos funcionários pendentes paginado, enfileirando os lotes em uma fila (e.g. SQS);
         // 2) Consumer processa cada lote
         var generatedQuantity = paymentRepository.insertPayments(payments);

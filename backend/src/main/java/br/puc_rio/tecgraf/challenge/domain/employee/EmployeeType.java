@@ -1,7 +1,5 @@
 package br.puc_rio.tecgraf.challenge.domain.employee;
 
-import java.util.Arrays;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum EmployeeType {
+    // Resolvi dar nomes aos tipos para ficar mais fácil de me encontrar no código
     PERMANENT("A"), // Contrato por tempo indeterminado
     FIXED_TERM("B"), // Contrato a prazo
     INTERN("C"), // Estagiário
@@ -17,9 +16,12 @@ public enum EmployeeType {
     private final String code;
 
     public static EmployeeType fromCode(final String code) {
-        return Arrays.stream(values())
-            .filter(type -> type.code.equals(code))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Invalid employee type code %s".formatted(code)));
+        return switch (code) {
+            case "A" -> PERMANENT;
+            case "B" -> FIXED_TERM;
+            case "C" -> INTERN;
+            case "D" -> SCHOLAR;
+            default -> throw new IllegalArgumentException("Invalid employee type code %s".formatted(code));
+        };
     }
 }

@@ -22,4 +22,11 @@ public class Employee {
     private BigDecimal baseSalary;
     private String address;
     private boolean active;
+
+    // A classe que calcula salário é a PaymentEmployee.
+    // A classe Employee é para o CRUD dos dados do funcionário.
+    // A classe PaymentEmployee é uma projeção de Employee, 
+    // contendo apenas os campos necessários para o cálculo e 
+    // campos adicionais, como o weekendWorkedDays, que por sua vez
+    // não faze sentido em um contexto de criação de um funcionário.
 }
