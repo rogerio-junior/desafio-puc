@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class PaymentController {
     private final SalaryService salaryService;
     private final PaymentRepository paymentRepository;
-    private final PaymentCsvPresenter csvPresenter = new PaymentCsvPresenter(',', StandardCharsets.UTF_8);
+    private final PaymentCsvPresenter csvPresenter = new PaymentCsvPresenter(';', StandardCharsets.UTF_8);
 
     @PostMapping("/calculate")
     public SalaryService.ComputeSalaryResult calculate(@Valid @RequestBody CalculateRequest request) {
@@ -68,7 +68,7 @@ public class PaymentController {
         final var csv = csvPresenter.present(payments);
         
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"users.csv\"")
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"pagamentos-%s.csv\"".formatted(month))
             .contentType(new MediaType("text", "csv", csvPresenter.getCharset()))
             .body(csv);
     }

@@ -1,4 +1,4 @@
-export function downloadFile(fileName: string, content: string, type: string) {
+export function downloadFile(fileName: string, content: BlobPart, type: string) {
   const url = URL.createObjectURL(new Blob([content], { type }));
   const link = document.createElement('a');
 

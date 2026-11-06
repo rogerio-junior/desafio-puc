@@ -62,7 +62,7 @@ export async function findEmployeePayments(
   return response.json();
 }
 
-export async function fetchPaymentsCsv(month: string): Promise<string> {
+export async function fetchPaymentsCsv(month: string): Promise<Blob> {
   const params = new URLSearchParams({ month });
   const response = await fetch(`/api/payments?${params}`, {
     headers: { Accept: 'text/csv' },
@@ -72,5 +72,5 @@ export async function fetchPaymentsCsv(month: string): Promise<string> {
     throw new ApiError(response.status);
   }
 
-  return response.text();
+  return response.blob();
 }

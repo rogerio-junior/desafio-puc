@@ -7,8 +7,8 @@ Os requisitos do desafio podem ser encontrados [aqui](./desafio/desafio-tecnico-
 ## Índice
 
 * [🚀 Como executar rápido](#-como-executar-rápido)
+* [🌱 Populando o BD com dados de teste](#-populando-o-bd-com-dados-de-teste-opcional)
 * [🐛 Como compilar e depurar](#-como-compilar-e-depurar)
-* [🌱 Popular o BD com dados de teste](#-popular-o-bd-com-dados-de-teste-opcional)
 * [🫀 Anatomia da API](#-anatomia-da-api)
 * [⚖️ Decisões](#️-decisões)
 
@@ -19,7 +19,7 @@ Os requisitos do desafio podem ser encontrados [aqui](./desafio/desafio-tecnico-
 3. O site fica disponível em `http://localhost:5173/` e a API em `http://localhost:8080/`
 4. Se precisar de dados de teste, veja o tópico seguinte
 
-## 🌱 Popular o BD com dados de teste (Opcional)
+## 🌱 Populando o BD com dados de teste (Opcional)
 
 O arquivo [db-seed.sql](/db-seed.sql) popula o banco com dados de teste. Você pode executar direto no banco ou, se preferir, com o comando abaixo:
 
