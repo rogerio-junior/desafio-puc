@@ -19,9 +19,7 @@
 *.sln
 *.sw?
 
-backend/.vscode/
-frontend/.vscode/*
-!frontend/.vscode/extensions.json
+*/.vscode/
 
 ### Java ###
 # Compiled class file
