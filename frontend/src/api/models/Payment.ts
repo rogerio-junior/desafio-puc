@@ -10,7 +10,7 @@ export type ComputeSalaryResult = {
   generatedQuantity: number;
 };
 
-export type MonthPayment = {
+export type EmployeePayment = {
   employeeId: string;
   firstName: string;
   lastName: string;
@@ -19,20 +19,20 @@ export type MonthPayment = {
   amount: number;
 };
 
-export type HistoryPayment = {
+export type PaymentHistoryEntry = {
   year: number;
   month: number;
   amount: number;
 };
 
-export type PaymentEmployee = {
+export type PaymentHistoryEmployee = {
   id: string;
   firstName: string;
   lastName: string;
   active: boolean;
 };
 
-export type EmployeePayments = {
-  employee: PaymentEmployee;
-  payments: Page<HistoryPayment>;
+export type PaymentHistory = {
+  employee: PaymentHistoryEmployee;
+  payments: Page<PaymentHistoryEntry>;
 };

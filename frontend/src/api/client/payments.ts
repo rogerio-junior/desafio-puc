@@ -1,8 +1,8 @@
 import type { Page } from '../models/Page';
 import type {
   ComputeSalaryResult,
-  EmployeePayments,
-  MonthPayment,
+  EmployeePayment,
+  PaymentHistory,
 } from '../models/Payment';
 import { ApiError } from './ApiError';
 
@@ -24,7 +24,7 @@ export async function findPaymentsByMonth(
   month: string,
   limit: number,
   offset: number,
-): Promise<Page<MonthPayment>> {
+): Promise<Page<EmployeePayment>> {
   const params = new URLSearchParams({
     month,
     limit: String(limit),
@@ -42,12 +42,12 @@ export async function findPaymentsByMonth(
   return response.json();
 }
 
-export async function findEmployeePayments(
+export async function getPaymentHistory(
   cpf: string,
   month: string,
   limit: number,
   offset: number,
-): Promise<EmployeePayments> {
+): Promise<PaymentHistory> {
   const params = new URLSearchParams({ limit: String(limit), offset: String(offset) });
   if (month) params.set('month', month);
 

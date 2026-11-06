@@ -1,11 +1,11 @@
-import type { HistoryPayment, PaymentEmployee } from '../../api/models/Payment';
+import type { PaymentHistoryEmployee, PaymentHistoryEntry } from '../../api/models/Payment';
 import { formatCpf, formatCurrency } from '../../utils/format';
 import { getMonthName } from '../../utils/payrollPeriod';
 import styles from './PaymentHistory.module.css';
 
 type PaymentHistoryProps = {
-  employee: PaymentEmployee;
-  payments: HistoryPayment[];
+  employee: PaymentHistoryEmployee;
+  payments: PaymentHistoryEntry[];
 };
 
 function capitalize(text: string) {

@@ -1,10 +1,10 @@
 import { Link } from 'react-router';
-import type { MonthPayment } from '../../api/models/Payment';
+import type { EmployeePayment } from '../../api/models/Payment';
 import { formatCpf, formatCurrency } from '../../utils/format';
 import styles from './PaymentTable.module.css';
 
 type PaymentTableProps = {
-  payments: MonthPayment[];
+  payments: EmployeePayment[];
 };
 
 function PaymentTable({ payments }: PaymentTableProps) {

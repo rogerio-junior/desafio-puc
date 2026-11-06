@@ -3,7 +3,7 @@ import { useLocation, useSearchParams } from 'react-router';
 import { ApiError } from '../../api/client/ApiError';
 import {
   fetchPaymentsCsv,
-  findEmployeePayments,
+  getPaymentHistory,
   findPaymentsByMonth,
 } from '../../api/client/payments';
 import Button from '../../components/Button';
@@ -81,7 +81,7 @@ function toSearchParams({ month, cpf }: PaymentQuery, limit: number | null, offs
 // Os dois endpoints têm formatos diferentes: type indica qual deles respondeu.
 async function searchPayments({ month, cpf }: PaymentQuery, limit: number, offset: number) {
   if (cpf) {
-    const { employee, payments } = await findEmployeePayments(cpf, month, limit, offset);
+    const { employee, payments } = await getPaymentHistory(cpf, month, limit, offset);
     return { type: 'history', employee, page: payments } as const;
   }
 
