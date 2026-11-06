@@ -18,7 +18,7 @@ export async function findActiveEmployeesByCep(
   });
 
   if (!response.ok) {
-    throw new ApiError(response.status);
+    throw await ApiError.from(response);
   }
 
   return response.json();

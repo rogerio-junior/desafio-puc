@@ -3,8 +3,8 @@ import { useLocation, useSearchParams } from 'react-router';
 import { ApiError } from '../../api/client/ApiError';
 import { computeSalary } from '../../api/client/payments';
 import Button from '../../components/Button';
-import Notice from '../../components/Notice';
 import Field from '../../components/Field';
+import RequestErrorNotice from '../../components/RequestErrorNotice';
 import Spinner from '../../components/Spinner';
 import { useApiCall } from '../../hooks/useApiCall';
 import {
@@ -62,7 +62,6 @@ function ComputeSalaryPage() {
     state.isFailed &&
     state.error instanceof ApiError &&
     state.error.status === 400;
-  const isUnavailable = state.isFailed && !isDateRejected;
   const period = getPayrollPeriod(referenceDate || today);
   const periodRange = formatPeriodRange(period);
 
@@ -134,12 +133,11 @@ function ComputeSalaryPage() {
 
           <p className={styles.note}>{note}</p>
 
-          {isUnavailable && (
-            <Notice
-              type="error"
+          {state.isFailed && !isDateRejected && (
+            <RequestErrorNotice
               title="Não foi possível calcular a folha"
-              message="O sistema está indisponível"
-              description="Tente novamente em alguns minutos. Quem já tem pagamento no mês não é recalculado."
+              error={state.error}
+              unavailableDescription="Tente novamente em alguns minutos. Quem já tem pagamento no mês não é recalculado."
             />
           )}
 

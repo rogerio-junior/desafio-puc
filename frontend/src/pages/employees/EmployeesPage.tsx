@@ -5,6 +5,7 @@ import Button from '../../components/Button';
 import Field from '../../components/Field';
 import Notice from '../../components/Notice';
 import Pagination from '../../components/Pagination';
+import RequestErrorNotice from '../../components/RequestErrorNotice';
 import Skeleton from '../../components/Skeleton';
 import { useApiCall } from '../../hooks/useApiCall';
 import { formatCep } from '../../utils/format';
@@ -149,12 +150,7 @@ function EmployeesPage() {
       )}
 
       {state.isFailed && (
-        <Notice
-          type="error"
-          title="Não foi possível buscar os funcionários"
-          message="O sistema está indisponível"
-          description="Tente novamente em alguns minutos."
-        />
+        <RequestErrorNotice title="Não foi possível buscar os funcionários" error={state.error} />
       )}
 
       {state.isSuccess && state.data.total === 0 && (

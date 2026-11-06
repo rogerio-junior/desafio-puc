@@ -10,6 +10,7 @@ import Button from '../../components/Button';
 import Field from '../../components/Field';
 import Notice from '../../components/Notice';
 import Pagination from '../../components/Pagination';
+import RequestErrorNotice from '../../components/RequestErrorNotice';
 import Skeleton from '../../components/Skeleton';
 import { useApiCall } from '../../hooks/useApiCall';
 import { downloadFile } from '../../utils/downloadFile';
@@ -60,14 +61,15 @@ function formatMonthWords(period: string) {
   return `${getMonthName(period)} de ${period.slice(0, 4)}`;
 }
 
-function readQueryFromUrl(params: URLSearchParams): PaymentQuery {
+// Sem mês nem CPF na URL, a tela abre no último mês fechado (defaultMonth).
+function readQueryFromUrl(params: URLSearchParams, defaultMonth: string): PaymentQuery {
   const month = params.get('month') ?? '';
   const cpf = params.get('cpf') ?? '';
+  const isCpfValid = /^\d{11}$/.test(cpf);
 
-  return {
-    month: isValidPeriod(month) ? month : '',
-    cpf: /^\d{11}$/.test(cpf) ? cpf : '',
-  };
+  if (isValidPeriod(month)) return { month, cpf: isCpfValid ? cpf : '' };
+
+  return { month: isCpfValid ? '' : defaultMonth, cpf: isCpfValid ? cpf : '' };
 }
 
 function toSearchParams({ month, cpf }: PaymentQuery, limit: number | null, offset: number) {
@@ -97,11 +99,12 @@ async function exportPaymentsCsv(month: string) {
 function PaymentsPage() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { month: urlMonth, cpf: urlCpf } = readQueryFromUrl(searchParams);
+  const [today] = useState(getToday);
+  const lastClosedPeriod = getPayrollPeriod(today);
+  const { month: urlMonth, cpf: urlCpf } = readQueryFromUrl(searchParams, lastClosedPeriod);
   const urlLimit = readLimit(searchParams);
   const limit = urlLimit ?? getPageSize({ month: urlMonth, cpf: urlCpf });
   const offset = readOffset(searchParams);
-  const [today] = useState(getToday);
 
   const [month, setMonth] = useState(urlMonth ? periodToMonthInput(urlMonth) : '');
   const [cpf, setCpf] = useState(formatCpf(urlCpf));
@@ -221,7 +224,6 @@ function PaymentsPage() {
     state.isFailed &&
     state.error instanceof ApiError &&
     state.error.status === 404;
-  const isUnavailable = state.isFailed && !isEmployeeNotFound;
   const employee = state.isSuccess && state.data.type === 'history' ? state.data.employee : null;
 
   let titleDetail = '';
@@ -268,7 +270,7 @@ function PaymentsPage() {
       <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <MonthField
           value={month}
-          max={getPayrollPeriod(today)}
+          max={lastClosedPeriod}
           error={monthError}
           onChange={handleMonthChange}
         />
@@ -299,12 +301,7 @@ function PaymentsPage() {
       </form>
 
       {exportState.isFailed && (
-        <Notice
-          type="error"
-          title="Não foi possível exportar o CSV"
-          message="O sistema está indisponível"
-          description="Tente novamente em alguns minutos."
-        />
+        <RequestErrorNotice title="Não foi possível exportar o CSV" error={exportState.error} />
       )}
 
       {state.isLoading && (
@@ -321,13 +318,8 @@ function PaymentsPage() {
         </div>
       )}
 
-      {isUnavailable && (
-        <Notice
-          type="error"
-          title="Não foi possível carregar os pagamentos"
-          message="O sistema está indisponível"
-          description="Tente novamente em alguns minutos."
-        />
+      {state.isFailed && !isEmployeeNotFound && (
+        <RequestErrorNotice title="Não foi possível carregar os pagamentos" error={state.error} />
       )}
 
       {(isEmpty || isEmployeeNotFound) && (

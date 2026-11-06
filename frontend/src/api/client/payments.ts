@@ -14,7 +14,7 @@ export async function computeSalary(referenceDate: string): Promise<ComputeSalar
   });
 
   if (!response.ok) {
-    throw new ApiError(response.status);
+    throw await ApiError.from(response);
   }
 
   return response.json();
@@ -36,7 +36,7 @@ export async function findPaymentsByMonth(
   });
 
   if (!response.ok) {
-    throw new ApiError(response.status);
+    throw await ApiError.from(response);
   }
 
   return response.json();
@@ -56,7 +56,7 @@ export async function getPaymentHistory(
   });
 
   if (!response.ok) {
-    throw new ApiError(response.status);
+    throw await ApiError.from(response);
   }
 
   return response.json();
@@ -69,7 +69,7 @@ export async function fetchPaymentsCsv(month: string): Promise<Blob> {
   });
 
   if (!response.ok) {
-    throw new ApiError(response.status);
+    throw await ApiError.from(response);
   }
 
   return response.blob();

@@ -24,7 +24,7 @@ function PaymentHistory({ employee, payments }: PaymentHistoryProps) {
       <div className={`${styles.columns} ${styles.header}`}>
         <span>Ano</span>
         <span>Mês</span>
-        <span className={styles.salaryHeader}>Salário a receber</span>
+        <span className={styles.salaryHeader}>Valor recebido</span>
       </div>
       {payments.map((payment, index) => (
         <div key={`${payment.year}-${payment.month}`} className={`${styles.columns} ${styles.row}`}>

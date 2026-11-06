@@ -19,6 +19,7 @@ services:
 
   api:
     build: ./backend
+    pull_policy: build
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/puc_challenge
     ports:
@@ -29,6 +30,7 @@ services:
 
   web:
     build: ./frontend
+    pull_policy: build
     environment:
       API_URL: http://api:8080 # Serviço "api" deste arquivo, acessado pela rede interna do compose
     ports:
