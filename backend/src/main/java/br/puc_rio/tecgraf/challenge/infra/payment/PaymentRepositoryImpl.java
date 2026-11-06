@@ -32,7 +32,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
         """;
 
         final var SQL = """
-            SELECT p.id_employee AS employee_id,
+            SELECT
+                p.id_employee AS employee_id,
                 e.first_name,
                 e.last_name,
                 p.month,
@@ -75,7 +76,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     @Override
     public List<Payee> findPendingPayeesOn(YearMonth payrollPeriod) {
         final var SQL = """
-            SELECT e.id_social_number AS employee_id,
+            SELECT
+                e.id_social_number AS employee_id,
                 e.type,
                 e.birth_date,
                 e.gender,

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.puc_rio.tecgraf.challenge.domain.NotFoundException;
 import br.puc_rio.tecgraf.challenge.domain.Page;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
-import br.puc_rio.tecgraf.challenge.domain.employee.Employee;
+import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeCep;
 import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeRepository;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentHistory;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentHistoryService;
@@ -38,7 +38,7 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public Page<Employee> findByActiveAndCep(
+    public Page<EmployeeCep> findByActiveAndCep(
         @RequestParam(required = false) String cep,
         @RequestParam(defaultValue = "25") @Max(500) Integer limit,
         @RequestParam(defaultValue = "0") Integer offset

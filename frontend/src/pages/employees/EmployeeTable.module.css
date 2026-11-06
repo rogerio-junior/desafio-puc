@@ -4,12 +4,12 @@
 }
 
 .table {
-  min-width: 1048px;
+  min-width: 920px;
 }
 
 .columns {
   display: grid;
-  grid-template-columns: minmax(170px, 1.3fr) 112px 88px 88px 136px minmax(230px, 2fr) 104px;
+  grid-template-columns: 88px minmax(170px, 1.3fr) 112px 88px 88px 136px 104px;
   column-gap: 20px;
   align-items: start;
 }
@@ -61,8 +61,10 @@
   padding-top: 2px;
 }
 
-.address {
-  text-wrap: pretty;
+.cep {
+  padding-top: 2px;
+  font-weight: 500;
+  color: var(--color-ink);
 }
 
 .paymentsLink {

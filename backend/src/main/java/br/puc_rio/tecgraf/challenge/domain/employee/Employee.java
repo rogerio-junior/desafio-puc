@@ -13,6 +13,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Employee {
+    // Usei string no lugar de int para considerar CPFs que iniciam com zero
     @EqualsAndHashCode.Include private SocialNumber id;
     private EmployeeType type;
     private String firstName;
