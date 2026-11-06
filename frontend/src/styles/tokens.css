@@ -17,6 +17,10 @@
   --font-accent: 'Libre Caslon Text', Georgia, serif;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   margin: 0;
   background: var(--color-bg-base);
