@@ -11,11 +11,15 @@ public interface EmployeeJpaRepository extends JpaRepository<EmployeeEntity, Str
         e.active = :active
         AND (CAST(:cep AS TEXT) IS NULL OR extract_cep(e.address) = CAST(:cep AS TEXT))
     """;
+    // Precisa de CAST para o bd reconhecer o tipo no caso de CEP null
 
-    @Query(value = "SELECT e.* FROM employee e WHERE " + ACTIVE_AND_CEP_FILTER + """
+    @Query(value = """
+        SELECT e.* FROM employee e
+        WHERE """ + ACTIVE_AND_CEP_FILTER + """
         ORDER BY e.first_name, e.last_name, e.id_social_number
         LIMIT :limit OFFSET :offset
-        """, nativeQuery = true)
+        """, nativeQuery = true
+    )
     List<EmployeeEntity> findByActiveAndCep(
         @Param("active") boolean active,
         @Param("cep") String cep,

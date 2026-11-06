@@ -102,8 +102,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
         return payees.stream().map(mapper::toDomain).toList();
     }
 
-    // Retorna a quantidade de pagamentos efetivamente inseridos, desconsiderando os que já existiam
-    // TOOD: Ver alternativa melhor
+    // Usa técnica de inserção em lote com arrays.
+    // Retorna quantos registros foram efetivamente inseridos, desconsidera o que já existia
     @Override
     public int insertPayments(List<Payment> payments) {
         final var SQL = """

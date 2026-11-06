@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class EmployeeRepositoryImpl implements EmployeeRepository {
+    // Usei um JpaRepository aqui para ficar mais fácil de, futuramente,
+    // inserir funcionários e fazer CRUD.
     private final EmployeeJpaRepository jpaRepository;
     private final EmployeeMapper mapper;
 

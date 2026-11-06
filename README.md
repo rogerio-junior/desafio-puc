@@ -70,6 +70,7 @@ docker compose exec -T db psql -U payment -d puc_challenge -v ON_ERROR_STOP=1 < 
 
 * **Spring Boot**: Escolha natural para backend. Criei o projeto pelo `start.spring.io`.
 * **Flyway**: Permite manter o banco de dados atualizado automaticamente, sendo útil também para criar containers de banco de dados efêmeros dentro da suite de testes do Java.
+* **Mapstruct**: Para converter objetos de forma mais fácil, visto que optei por deixar o domínio agnóstico.
 * **React**: Foi escolhido pela flexibilidade de criação de componentes e gestão do estado das telas. Usei o **Vite** para suportar o desenvolvimento com Hot Reload e build simplificado para produzir um HTML standalone (SPA) sem precisa de um servidor, devo à natureza simples do projeto.
 
 ### Negócio
