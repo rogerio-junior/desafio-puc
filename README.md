@@ -101,3 +101,8 @@ Passo a passo para executar, compilar e buildar tudo na própria máquina.
 * Nos bônus com percentual, apliquei arredondamento para cima nas dízimas com mais de 2 dígitos.
 * O aniversário é avaliado pelo mês. Quem nasceu em 29/02 faz aniversário em fevereiro mesmo em ano não bissexto.
 * Funcionário que já tem pagamento no mês de competência não é recalculado nem sobrescrito.
+* Funcionários não binários não ganham bônus por idade, mesmo com mais de 60 anos.
+
+### Técnico
+
+* **Testes unitários**: Optei por fazer apenas os testes unitários da funcionalidade principal de calculo.
