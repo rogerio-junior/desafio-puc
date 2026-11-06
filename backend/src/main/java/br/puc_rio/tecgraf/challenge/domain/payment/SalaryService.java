@@ -2,11 +2,8 @@ package br.puc_rio.tecgraf.challenge.domain.payment;
 
 import java.time.LocalDate;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
 
-@Service
 @RequiredArgsConstructor
 public class SalaryService {
     private final PaymentRepository paymentRepository;

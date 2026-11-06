@@ -3,15 +3,12 @@ package br.puc_rio.tecgraf.challenge.domain.payment;
 import java.math.BigDecimal;
 import java.time.YearMonth;
 
-import org.springframework.stereotype.Service;
-
 import br.puc_rio.tecgraf.challenge.domain.NotFoundException;
 import br.puc_rio.tecgraf.challenge.domain.Page;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
 import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 
-@Service
 @RequiredArgsConstructor
 public class PaymentHistoryService {
     private final PaymentRepository paymentRepository;
@@ -19,6 +16,7 @@ public class PaymentHistoryService {
 
     public FindPaymentsResponse findHistory(SocialNumber employeeId, YearMonth payrollPeriod, Page.Cursor cursor) throws NotFoundException {
         final var employee = employeeRepository.getBySocialNumber(employeeId);
+        
         final var criteria = new PaymentRepository.Criteria(employeeId, payrollPeriod);
         final var payments = paymentRepository.findByCriteria(criteria, cursor);
 
