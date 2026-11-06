@@ -1,6 +1,6 @@
 # Desafio PUC Rio (Folha de Pagamento)
 
-Os requisitos do desafio podem ser encontrados [aqui](./desafio/desafio-tecnico-estendido.md).
+Os requisitos do desafio podem ser encontrados [aqui](./.enunciado-desafio/desafio-tecnico-estendido.md).
 
 > 📌 **Todos os comandos** devem ser executados a partir da raiz do repositório
 
