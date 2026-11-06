@@ -1,4 +1,4 @@
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent, MouseEvent } from 'react';
 import Field from '../../components/Field';
 import {
   formatMonthInput,
@@ -31,6 +31,17 @@ function MonthField({ value, max, error, onChange }: MonthFieldProps) {
     onChange(event.target.value ? periodToMonthInput(event.target.value) : '');
   }
 
+  // O Chrome só abre o seletor ao clicar exatamente no ícone; no resto da área
+  // o clique apenas foca o campo. Abrindo pelo showPicker, qualquer ponto serve.
+  function handlePickerClick(event: MouseEvent<HTMLInputElement>) {
+    try {
+      event.currentTarget.showPicker();
+      event.preventDefault();
+    } catch {
+      // Navegador sem showPicker: segue o comportamento nativo.
+    }
+  }
+
   return (
     <Field
       className={styles.field}
@@ -55,6 +66,7 @@ function MonthField({ value, max, error, onChange }: MonthFieldProps) {
           title="Escolher mês"
           max={max}
           value={isCompleteMonthInput(value) ? monthInputToPeriod(value) : ''}
+          onClick={handlePickerClick}
           onChange={handlePickerChange}
         />
       )}
