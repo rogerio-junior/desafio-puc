@@ -6,11 +6,30 @@ Os requisitos do desafio podem ser encontrados [aqui](./desafio/desafio-tecnico-
 
 ## Índice
 
-* [🚀 Como executar](#-como-executar)
+* [🚀 Como executar rápido](#-como-executar-rápido)
+* [🐛 Como compilar e depurar](#-como-compilar-e-depurar)
+* [🌱 Popular o BD com dados de teste](#-popular-o-bd-com-dados-de-teste-opcional)
 * [🫀 Anatomia da API](#-anatomia-da-api)
 * [⚖️ Decisões](#️-decisões)
 
-## 🚀 Como executar
+## 🚀 Como executar rápido
+
+1. Tenha o Docker instalado.
+2. Execute o comando `docker compose up`
+3. O site fica disponível em `http://localhost:5173/` e a API em `http://localhost:8080/`
+4. Se precisar de dados de teste, veja o tópico seguinte
+
+## 🌱 Popular o BD com dados de teste (Opcional)
+
+O arquivo [db-seed.sql](/db-seed.sql) popula o banco com dados de teste. Você pode executar direto no banco ou, se preferir, com o comando abaixo:
+
+```bash
+docker compose exec -T db psql -U payment -d puc_challenge -v ON_ERROR_STOP=1 < db-seed.sql
+```
+
+## 🐛 Como compilar e depurar
+
+Passo a passo para executar, compilar e buildar tudo na própria máquina.
 
 ### 1. Pré-requisitos
 
@@ -22,7 +41,7 @@ Os requisitos do desafio podem ser encontrados [aqui](./desafio/desafio-tecnico-
 
 1. Inicie o banco de dados:
     ```bash
-    docker compose up
+    docker compose up db
     ```
 2. Informações para se conectar ao banco (eu usei o DBeaver):
     * URL: `jdbc:postgresql://localhost:5432/postgres`
@@ -44,15 +63,7 @@ Os requisitos do desafio podem ser encontrados [aqui](./desafio/desafio-tecnico-
 
 > Se preferir, pode executar ou depurar o backend através da sua IDE favorita, sabendo que é um projeto Maven
 
-### 4. Alimentar banco de dados (Opcional)
-
-O arquivo [db-seed.sql](/db-seed.sql) popula o banco com dados de teste. Você pode executar direto no banco ou, se preferir, com o comando abaixo:
-
-```bash
-docker compose exec -T db psql -U payment -d puc_challenge -v ON_ERROR_STOP=1 < db-seed.sql
-```
-
-### 5. Compilar e executar o frontend
+### 4. Compilar e executar o frontend
 
 1. Instale as dependências, compile e gere o HTML com o comando:
     ```bash

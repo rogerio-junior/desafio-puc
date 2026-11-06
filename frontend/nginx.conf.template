@@ -1,0 +1,15 @@
+# Template processado pela imagem oficial do nginx ao iniciar: ${API_URL} vem da variável de ambiente
+server {
+    listen 80;
+    root /usr/share/nginx/html;
+
+    # Mesmo comportamento do proxy do Vite: /api/payments -> ${API_URL}/payments
+    location /api/ {
+        proxy_pass ${API_URL}/;
+    }
+
+    # SPA: rotas do React Router (ex.: /pagamentos) devolvem o index.html
+    location / {
+        try_files $uri /index.html;
+    }
+}
