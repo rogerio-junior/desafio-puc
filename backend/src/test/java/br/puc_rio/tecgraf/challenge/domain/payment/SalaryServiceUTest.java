@@ -40,7 +40,7 @@ class SalaryServiceUTest {
         final var payrollPeriod = YearMonth.of(2026, 10);
 
         when(paymentRepository.findPendingsOn(payrollPeriod))
-            .thenReturn(List.of(employee("1"), employee("2")));
+            .thenReturn(List.of(employee("92572993848"), employee("09530965214")));
         when(paymentRepository.insertPayments(anyList())).thenReturn(1);
 
         // When
@@ -56,7 +56,7 @@ class SalaryServiceUTest {
         assertThat(paymentsCaptor.getValue())
             .extracting(Payment::getEmployeeId, Payment::getYearMonth, Payment::getAmount)
             .containsExactly(
-                tuple(SocialNumber.of("1"), payrollPeriod, new BigDecimal("1000.00")),
-                tuple(SocialNumber.of("2"), payrollPeriod, new BigDecimal("1000.00")));
+                tuple(SocialNumber.of("92572993848"), payrollPeriod, new BigDecimal("1000.00")),
+                tuple(SocialNumber.of("09530965214"), payrollPeriod, new BigDecimal("1000.00")));
     }
 }

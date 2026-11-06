@@ -22,7 +22,7 @@ public class PaymentEmployeeFactory {
     }
 
     public static PaymentEmployee employee(EmployeeType type, LocalDate birthDate, Gender gender, int workedWeekendDays) {
-        final var socialNumber = SocialNumber.of("1");
+        final var socialNumber = SocialNumber.of("92572993848");
 
         return switch (type) {
             case PERMANENT -> new PermanentEmployee(socialNumber, birthDate, gender, BASE_SALARY, workedWeekendDays);
