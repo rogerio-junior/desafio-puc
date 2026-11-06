@@ -1,27 +1,27 @@
-package br.puc_rio.tecgraf.challenge.domain.payment.employees;
+package br.puc_rio.tecgraf.challenge.domain.payment.payees;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import br.puc_rio.tecgraf.challenge.domain.Gender;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
 import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeType;
-import br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployee;
+import br.puc_rio.tecgraf.challenge.domain.payment.Payee;
 import br.puc_rio.tecgraf.challenge.domain.payment.PayrollReference;
+import br.puc_rio.tecgraf.challenge.domain.payment.rules.ElderlyBonus;
 import br.puc_rio.tecgraf.challenge.domain.payment.rules.SalaryRule;
-import br.puc_rio.tecgraf.challenge.domain.payment.rules.WeekendBonus;
+import br.puc_rio.tecgraf.challenge.domain.Gender;
 
-public class ScholarEmployee extends PaymentEmployee {
-    private static final SalaryRule SALARY_RULE = new WeekendBonus();
+public class FixedTermPayee extends Payee {
+    private static final SalaryRule SALARY_RULE = new ElderlyBonus();
 
-    public ScholarEmployee(SocialNumber socialNumber, LocalDate birthDate, Gender gender, BigDecimal baseSalary,
+    public FixedTermPayee(SocialNumber socialNumber, LocalDate birthDate, Gender gender, BigDecimal baseSalary,
             int workedWeekendDays) {
         super(socialNumber, birthDate, gender, baseSalary, workedWeekendDays);
     }
 
     @Override
     public EmployeeType getType() {
-        return EmployeeType.SCHOLAR;
+        return EmployeeType.FIXED_TERM;
     }
 
     @Override

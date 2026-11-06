@@ -10,7 +10,7 @@ public interface PaymentRepository {
     // Filtros nulos em Criteria são ignorados. Para a próxima página, use page.nexCursor(PaymentInfo::cursorKey)
     Page<PaymentInfo> findByCriteria(Criteria criteria, Page.Cursor cursor);
 
-    List<PaymentEmployee> findPendingsOn(YearMonth yearMonth);
+    List<Payee> findPendingPayeesOn(YearMonth payrollPeriod);
     
     int insertPayments(List<Payment> payments);
 

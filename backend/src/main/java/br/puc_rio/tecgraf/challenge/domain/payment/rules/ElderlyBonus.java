@@ -5,18 +5,18 @@ import java.math.RoundingMode;
 import java.time.Period;
 
 import br.puc_rio.tecgraf.challenge.domain.Gender;
-import br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployee;
+import br.puc_rio.tecgraf.challenge.domain.payment.Payee;
 import br.puc_rio.tecgraf.challenge.domain.payment.PayrollReference;
 
 public class ElderlyBonus implements SalaryRule {
     @Override
-    public BigDecimal computeSalary(PaymentEmployee employee, PayrollReference payrollRef, BigDecimal currentSalary) {
+    public BigDecimal computeSalary(Payee payee, PayrollReference payrollRef, BigDecimal currentSalary) {
         // Considera a idade no fim do mês de competência
-        var age = Period.between(employee.getBirthDate(), payrollRef.getPeriod().atEndOfMonth()).getYears();
+        var age = Period.between(payee.getBirthDate(), payrollRef.getPeriod().atEndOfMonth()).getYears();
 
-        if ((employee.getGender() == Gender.M && age > 65)
-            || employee.getGender() == Gender.F && age > 60) {
-            var bonus = employee.getBaseSalary().multiply(new BigDecimal("0.03")).setScale(2, RoundingMode.HALF_UP);
+        if ((payee.getGender() == Gender.M && age > 65)
+            || payee.getGender() == Gender.F && age > 60) {
+            var bonus = payee.getBaseSalary().multiply(new BigDecimal("0.03")).setScale(2, RoundingMode.HALF_UP);
 
             return currentSalary.add(bonus);
         }

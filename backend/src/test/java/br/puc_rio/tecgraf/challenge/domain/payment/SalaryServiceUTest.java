@@ -1,6 +1,6 @@
 package br.puc_rio.tecgraf.challenge.domain.payment;
 
-import static br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployeeFactory.employee;
+import static br.puc_rio.tecgraf.challenge.domain.payment.PayeeFactory.payee;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -39,8 +39,8 @@ class SalaryServiceUTest {
         final var referenceDate = LocalDate.of(2026, 11, 4);
         final var payrollPeriod = YearMonth.of(2026, 10);
 
-        when(paymentRepository.findPendingsOn(payrollPeriod))
-            .thenReturn(List.of(employee("92572993848"), employee("09530965214")));
+        when(paymentRepository.findPendingPayeesOn(payrollPeriod))
+            .thenReturn(List.of(payee("92572993848"), payee("09530965214")));
         when(paymentRepository.insertPayments(anyList())).thenReturn(1);
 
         // When

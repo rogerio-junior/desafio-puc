@@ -11,9 +11,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor // TODO: Validar as constraints?
+@RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public abstract class PaymentEmployee {
+public abstract class Payee {
     @EqualsAndHashCode.Include private final SocialNumber socialNumber;
     private final LocalDate birthDate;
     private final Gender gender;
@@ -25,8 +25,8 @@ public abstract class PaymentEmployee {
     // Mudei de double para BigDecimal para impedir erros de precisão.
     // Mudei de Date para PayrollReference para manter unida a regra de data 
     // de referência + mês de competência, além de usar API "nova" de datas do Java.
-    // Geralmente eu separaria os dados do comportamento para impedir que a
-    // classe fique inchada futuramente ao adicionar mais funções conforme
-    // o sistema cresce.
+    // Mantive o método pela proposta do desafio, mas geralmente eu separaria os 
+    // dados do comportamento para impedir que a classe fique inchada futuramente ao
+    // adicionar mais funções conforme o sistema cresce.
     public abstract BigDecimal computeSalary(PayrollReference payrollRef);
 }

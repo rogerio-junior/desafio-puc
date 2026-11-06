@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import br.puc_rio.tecgraf.challenge.domain.Page;
 import br.puc_rio.tecgraf.challenge.domain.payment.Payment;
-import br.puc_rio.tecgraf.challenge.domain.payment.PaymentEmployee;
+import br.puc_rio.tecgraf.challenge.domain.payment.Payee;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentInfo;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaymentRepositoryImpl implements PaymentRepository {
     private final JdbcClient jdbcClient;
-    private final PaymentEmployeeMapper mapper;
+    private final PayeeMapper mapper;
 
     // Ordem alfabética por nome e sobrenome. O CPF desempata homônimos e, no mesmo funcionário, o pagamento mais recente vem primeiro.
     // A paginação é por keyset: os valores negativos permitem comparar ano e mês (DESC) na mesma comparação de linha dos demais campos (ASC).
@@ -76,7 +76,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
-    public List<PaymentEmployee> findPendingsOn(YearMonth yearMonth) {
+    public List<Payee> findPendingPayeesOn(YearMonth payrollPeriod) {
         final var SQL = """
             SELECT e.id_social_number AS social_number,
                 e.type,
@@ -94,15 +94,15 @@ public class PaymentRepositoryImpl implements PaymentRepository {
             ORDER BY e.id_social_number
         """;
 
-        var pendings = jdbcClient.sql(SQL)
-            .param("start", yearMonth.atDay(1).atStartOfDay())
-            .param("end", yearMonth.plusMonths(1).atDay(1).atStartOfDay())
-            .param("year", yearMonth.getYear())
-            .param("month", yearMonth.getMonthValue())
-            .query(PaymentEmployeeProjection.class)
+        var payees = jdbcClient.sql(SQL)
+            .param("start", payrollPeriod.atDay(1).atStartOfDay())
+            .param("end", payrollPeriod.plusMonths(1).atDay(1).atStartOfDay())
+            .param("year", payrollPeriod.getYear())
+            .param("month", payrollPeriod.getMonthValue())
+            .query(PayeeProjection.class)
             .list();
 
-        return pendings.stream().map(mapper::toDomain).toList();
+        return payees.stream().map(mapper::toDomain).toList();
     }
 
     // Retorna a quantidade de pagamentos efetivamente inseridos, desconsiderando os que já existiam

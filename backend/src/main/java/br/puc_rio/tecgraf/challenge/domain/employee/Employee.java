@@ -23,10 +23,10 @@ public class Employee {
     private String address;
     private boolean active;
 
-    // A classe que calcula salário é a PaymentEmployee.
     // A classe Employee é para o CRUD dos dados do funcionário.
-    // A classe PaymentEmployee é uma projeção de Employee, 
-    // contendo apenas os campos necessários para o cálculo e 
-    // campos adicionais, como o weekendWorkedDays, que por sua vez
-    // não faze sentido em um contexto de criação de um funcionário.
+    // O cálculo de salário fica em payment.Payee (beneficiário), que é a
+    // visão de Employee usada pela folha de pagamento, contendo apenas os
+    // campos necessários para o cálculo e campos adicionais, como o
+    // workedWeekendDays, que por sua vez não faria sentido no contexto
+    // de criação de um funcionário.
 }

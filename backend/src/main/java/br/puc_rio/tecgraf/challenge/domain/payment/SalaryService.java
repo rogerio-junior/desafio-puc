@@ -13,7 +13,7 @@ public class SalaryService {
 
     public ComputeSalaryResult computeSalaryOf(final LocalDate referenceDate) {
         var payrollRef = PayrollReference.of(referenceDate);
-        var pendings = paymentRepository.findPendingsOn(payrollRef.getPeriod());
+        var pendings = paymentRepository.findPendingPayeesOn(payrollRef.getPeriod());
         var payments = pendings.stream().map(p -> computeSalary(p, payrollRef)).toList();
 
         // Em aplicações de grande porte eu usaria processamento assíncrono, provavelmente em 2 etapas:
@@ -24,7 +24,7 @@ public class SalaryService {
         return new ComputeSalaryResult(payrollRef, payments.size(), generatedQuantity);
     }
 
-    private Payment computeSalary(PaymentEmployee p, PayrollReference payrollRef) {
+    private Payment computeSalary(Payee p, PayrollReference payrollRef) {
         var salary = p.computeSalary(payrollRef);
 
         return new Payment(p.getSocialNumber(), payrollRef.getPeriod(), salary);
