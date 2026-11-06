@@ -14,8 +14,7 @@ import br.puc_rio.tecgraf.challenge.domain.payment.rules.WeekendBonus;
 public class ScholarPayee extends Payee {
     private static final SalaryRule SALARY_RULE = new WeekendBonus();
 
-    public ScholarPayee(SocialNumber socialNumber, LocalDate birthDate, Gender gender, BigDecimal baseSalary,
-            int weekendDaysWorked) {
+    public ScholarPayee(SocialNumber socialNumber, LocalDate birthDate, Gender gender, BigDecimal baseSalary, int weekendDaysWorked) {
         super(socialNumber, birthDate, gender, baseSalary, weekendDaysWorked);
     }
 

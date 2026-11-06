@@ -123,8 +123,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
 
         return jdbcClient.sql(SQL)
             .param("employeeIds", payments.stream().map(payment -> payment.getEmployeeId().getNumber()).toArray(String[]::new))
-            .param("months", payments.stream().map(payment -> payment.getYearMonth().getMonthValue()).toArray(Integer[]::new))
-            .param("years", payments.stream().map(payment -> payment.getYearMonth().getYear()).toArray(Integer[]::new))
+            .param("months", payments.stream().map(payment -> payment.getPeriod().getMonthValue()).toArray(Integer[]::new))
+            .param("years", payments.stream().map(payment -> payment.getPeriod().getYear()).toArray(Integer[]::new))
             .param("amounts", payments.stream().map(Payment::getAmount).toArray(BigDecimal[]::new))
             .update();
     }

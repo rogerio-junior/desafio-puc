@@ -54,7 +54,7 @@ class SalaryServiceUTest {
         assertThat(result.expectedQuantity()).isEqualTo(2);
         assertThat(result.generatedQuantity()).isEqualTo(1);
         assertThat(paymentsCaptor.getValue())
-            .extracting(Payment::getEmployeeId, Payment::getYearMonth, Payment::getAmount)
+            .extracting(Payment::getEmployeeId, Payment::getPeriod, Payment::getAmount)
             .containsExactly(
                 tuple(SocialNumber.of("92572993848"), payrollPeriod, new BigDecimal("1000.00")),
                 tuple(SocialNumber.of("09530965214"), payrollPeriod, new BigDecimal("1000.00")));
