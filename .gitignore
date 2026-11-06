@@ -18,7 +18,7 @@
 *.njsproj
 *.sln
 *.sw?
-*/.vscode/
+
 
 ### Java ###
 # Compiled class file
