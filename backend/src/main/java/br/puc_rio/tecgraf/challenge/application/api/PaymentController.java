@@ -34,7 +34,7 @@ public class PaymentController {
 
     @PostMapping("/calculate")
     public SalaryService.ComputeSalaryResult calculate(@Valid @RequestBody CalculateRequest request) {
-        return salaryService.computeSalaryOf(request.referenceDate());
+        return salaryService.computeSalary(request.referenceDate());
     }
 
     public record CalculateRequest(

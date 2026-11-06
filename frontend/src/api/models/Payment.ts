@@ -22,7 +22,7 @@ export type MonthPayment = {
 export type HistoryPayment = {
   year: number;
   month: number;
-  salaryToReceive: number;
+  amount: number;
 };
 
 export type PaymentEmployee = {
@@ -34,5 +34,5 @@ export type PaymentEmployee = {
 
 export type EmployeePayments = {
   employee: PaymentEmployee;
-  paymentsPage: Page<HistoryPayment>;
+  payments: Page<HistoryPayment>;
 };

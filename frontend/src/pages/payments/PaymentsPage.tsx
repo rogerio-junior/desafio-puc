@@ -81,8 +81,8 @@ function toSearchParams({ month, cpf }: PaymentQuery, limit: number | null, offs
 // Os dois endpoints têm formatos diferentes: type indica qual deles respondeu.
 async function searchPayments({ month, cpf }: PaymentQuery, limit: number, offset: number) {
   if (cpf) {
-    const { employee, paymentsPage } = await findEmployeePayments(cpf, month, limit, offset);
-    return { type: 'history', employee, page: paymentsPage } as const;
+    const { employee, payments } = await findEmployeePayments(cpf, month, limit, offset);
+    return { type: 'history', employee, page: payments } as const;
   }
 
   const page = await findPaymentsByMonth(month, limit, offset);

@@ -1,6 +1,5 @@
 package br.puc_rio.tecgraf.challenge.domain.payment;
 
-import java.math.BigDecimal;
 import java.time.YearMonth;
 
 import br.puc_rio.tecgraf.challenge.domain.NotFoundException;
@@ -14,43 +13,24 @@ public class PaymentHistoryService {
     private final PaymentRepository paymentRepository;
     private final EmployeeRepository employeeRepository;
 
-    public FindPaymentsResponse findHistory(SocialNumber employeeId, YearMonth payrollPeriod, Page.Cursor cursor) throws NotFoundException {
+    public PaymentHistory getHistory(SocialNumber employeeId, YearMonth payrollPeriod, Page.Cursor cursor) throws NotFoundException {
         final var employee = employeeRepository.getBySocialNumber(employeeId);
-        
+
         final var criteria = new PaymentRepository.Criteria(employeeId, payrollPeriod);
         final var payments = paymentRepository.findByCriteria(criteria, cursor);
 
-        final var employeeResult = new FindPaymentsResponse.Employee(
+        final var historyEmployee = new PaymentHistory.Employee(
             employee.getSocialNumber().getNumber(),
             employee.getFirstName(),
             employee.getLastName(),
             employee.isActive()
         );
-        final var paymentsResult = payments.map(pi -> new FindPaymentsResponse.Payment(
-            pi.year(),
-            pi.month(),
-            pi.salary()
+        final var entries = payments.map(payment -> new PaymentHistory.Entry(
+            payment.year(),
+            payment.month(),
+            payment.salary()
         ));
 
-        return new FindPaymentsResponse(employeeResult, paymentsResult);
-    }
-
-    // TODO: Melhorar nome do retorno
-    public record FindPaymentsResponse(
-        FindPaymentsResponse.Employee employee,
-        Page<FindPaymentsResponse.Payment> paymentsPage
-    ){
-        public record Employee(
-            String id,
-            String firstName,
-            String lastName,
-            boolean active
-        ){ }
-
-        public record Payment(
-            int year,
-            int month,
-            BigDecimal salaryToReceive
-        ){ }
+        return new PaymentHistory(historyEmployee, entries);
     }
 }

@@ -33,7 +33,7 @@ function PaymentHistory({ employee, payments }: PaymentHistoryProps) {
             {index === 0 || payments[index - 1].year !== payment.year ? payment.year : ''}
           </span>
           <span>{capitalize(getMonthName(`${payment.year}-${payment.month}`))}</span>
-          <span className={styles.salary}>{formatCurrency(payment.salaryToReceive)}</span>
+          <span className={styles.salary}>{formatCurrency(payment.amount)}</span>
         </div>
       ))}
     </section>

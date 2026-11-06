@@ -44,7 +44,7 @@ class SalaryServiceUTest {
         when(paymentRepository.insertPayments(anyList())).thenReturn(1);
 
         // When
-        final var result = sut.computeSalaryOf(referenceDate);
+        final var result = sut.computeSalary(referenceDate);
 
         // Then
         verify(paymentRepository).insertPayments(paymentsCaptor.capture());

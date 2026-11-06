@@ -13,6 +13,7 @@ import br.puc_rio.tecgraf.challenge.domain.Page;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
 import br.puc_rio.tecgraf.challenge.domain.employee.Employee;
 import br.puc_rio.tecgraf.challenge.domain.employee.EmployeeRepository;
+import br.puc_rio.tecgraf.challenge.domain.payment.PaymentHistory;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentHistoryService;
 import jakarta.validation.constraints.Max;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class EmployeeController {
     private final EmployeeRepository employeeRepository;
 
     @GetMapping("/{cpf}/payments")
-    public PaymentHistoryService.FindPaymentsResponse findPayments(
+    public PaymentHistory findPayments(
         @PathVariable String cpf,
         @RequestParam(required = false) YearMonth month,
         @RequestParam(defaultValue = "25") @Max(500) Integer limit,
@@ -33,7 +34,7 @@ public class EmployeeController {
     ) throws NotFoundException {
         var cursor = new Page.Cursor(String.valueOf(offset), limit);
 
-        return paymentHistoryService.findHistory(SocialNumber.of(cpf), month, cursor);
+        return paymentHistoryService.getHistory(SocialNumber.of(cpf), month, cursor);
     }
 
     @GetMapping

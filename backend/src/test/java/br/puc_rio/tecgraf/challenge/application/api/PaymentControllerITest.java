@@ -44,7 +44,7 @@ class PaymentControllerITest {
         final var requestBody = """
             {"referenceDate": "2026-05-01"}""";
 
-        when(salaryService.computeSalaryOf(referenceDate)).thenReturn(mockComputeSalaryResult(referenceDate));
+        when(salaryService.computeSalary(referenceDate)).thenReturn(mockComputeSalaryResult(referenceDate));
 
         // When & Then
         mockMvc.perform(post("/payments/calculate")
@@ -77,7 +77,7 @@ class PaymentControllerITest {
             .andExpect(jsonPath("$.status").value(400))
             .andExpect(jsonPath("$.detail").value(PaymentController.CalculateRequest.INVALID_REFERENCE_DATE));
 
-        verify(salaryService, never()).computeSalaryOf(any());
+        verify(salaryService, never()).computeSalary(any());
     }
 
     // TODO: Alguns formatos deveriam cair na mensagem de INVALID_REFERENCE_DATE
@@ -100,7 +100,7 @@ class PaymentControllerITest {
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON))
             .andExpect(jsonPath("$.detail").value("Request body is missing or is not valid JSON"));
 
-        verify(salaryService, never()).computeSalaryOf(any());
+        verify(salaryService, never()).computeSalary(any());
     }
 
     private SalaryService.ComputeSalaryResult mockComputeSalaryResult(LocalDate refDate) {
