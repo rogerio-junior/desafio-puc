@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Payee {
-    @EqualsAndHashCode.Include private final SocialNumber socialNumber;
+    @EqualsAndHashCode.Include private final SocialNumber employeeId;
     private final LocalDate birthDate;
     private final Gender gender;
     private final BigDecimal baseSalary;

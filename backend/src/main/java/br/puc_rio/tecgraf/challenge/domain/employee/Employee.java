@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Employee {
-    @EqualsAndHashCode.Include private SocialNumber socialNumber;
+    @EqualsAndHashCode.Include private SocialNumber id;
     private EmployeeType type;
     private String firstName;
     private String lastName;
@@ -23,10 +23,10 @@ public class Employee {
     private String address;
     private boolean active;
 
-    // A classe Employee é para o CRUD dos dados do funcionário.
     // O cálculo de salário fica em payment.Payee (beneficiário), que é a
     // visão de Employee usada pela folha de pagamento, contendo apenas os
     // campos necessários para o cálculo e campos adicionais, como o
     // weekendDaysWorked, que por sua vez não faria sentido no contexto
     // de criação de um funcionário.
+    // A classe Employee ficaria para o CRUD dos dados do funcionário.
 }

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import br.puc_rio.tecgraf.challenge.domain.Gender;
 
 public record PayeeProjection(
-    String socialNumber,
+    String employeeId,
     String type,
     LocalDate birthDate,
     Gender gender,

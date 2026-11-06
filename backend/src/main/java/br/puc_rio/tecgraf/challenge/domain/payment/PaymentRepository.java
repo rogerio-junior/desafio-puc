@@ -14,5 +14,5 @@ public interface PaymentRepository {
     
     int insertPayments(List<Payment> payments);
 
-    public record Criteria(SocialNumber socialNumber, YearMonth payrollPeriod) { }
+    public record Criteria(SocialNumber employeeId, YearMonth payrollPeriod) { }
 }

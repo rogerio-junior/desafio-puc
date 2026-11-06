@@ -28,7 +28,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     public Page<EmployeePayment> findByCriteria(Criteria criteria, Page.Cursor cursor) {
         // A construção dos critérios dessa maneira evita ter que criar vários ifs
         final var FILTERS = """
-            (:socialNumber IS NULL OR p.id_employee = :socialNumber)
+            (:employeeId IS NULL OR p.id_employee = :employeeId)
             AND (:year IS NULL OR p.year = :year)
             AND (:month IS NULL OR p.month = :month)
         """;
@@ -50,14 +50,14 @@ public class PaymentRepositoryImpl implements PaymentRepository {
 
         final var COUNT_SQL = "SELECT COUNT(*) FROM payment p WHERE %s".formatted(FILTERS);
 
-        final var socialNumber = criteria.socialNumber() == null ? null : criteria.socialNumber().getNumber();
+        final var employeeId = criteria.employeeId() == null ? null : criteria.employeeId().getNumber();
         final var period = criteria.payrollPeriod();
         final var year = period == null ? null : period.getYear();
         final var month = period == null ? null : period.getMonthValue();
 
         // Somente os parâmetros não obrigatórios precisam de especificar o tipo para o banco entender quando forem nulos
         final var items = jdbcClient.sql(SQL)
-            .param("socialNumber", socialNumber, Types.VARCHAR)
+            .param("employeeId", employeeId, Types.VARCHAR)
             .param("year", year, Types.INTEGER)
             .param("month", month, Types.INTEGER)
             .param("limit", cursor.limit())
@@ -66,7 +66,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
             .list();
 
         var total = jdbcClient.sql(COUNT_SQL)
-            .param("socialNumber", socialNumber, Types.VARCHAR)
+            .param("employeeId", employeeId, Types.VARCHAR)
             .param("year", year, Types.INTEGER)
             .param("month", month, Types.INTEGER)
             .query(Long.class)
@@ -78,7 +78,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     @Override
     public List<Payee> findPendingPayeesOn(YearMonth payrollPeriod) {
         final var SQL = """
-            SELECT e.id_social_number AS social_number,
+            SELECT e.id_social_number AS employee_id,
                 e.type,
                 e.birth_date,
                 e.gender,

@@ -14,8 +14,8 @@ import br.puc_rio.tecgraf.challenge.domain.Gender;
 public class FixedTermPayee extends Payee {
     private static final SalaryRule SALARY_RULE = new ElderlyBonus();
 
-    public FixedTermPayee(SocialNumber socialNumber, LocalDate birthDate, Gender gender, BigDecimal baseSalary, int weekendDaysWorked) {
-        super(socialNumber, birthDate, gender, baseSalary, weekendDaysWorked);
+    public FixedTermPayee(SocialNumber employeeId, LocalDate birthDate, Gender gender, BigDecimal baseSalary, int weekendDaysWorked) {
+        super(employeeId, birthDate, gender, baseSalary, weekendDaysWorked);
     }
 
     @Override

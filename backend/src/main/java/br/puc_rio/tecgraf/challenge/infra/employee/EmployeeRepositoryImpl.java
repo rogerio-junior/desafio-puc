@@ -17,12 +17,12 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     private final EmployeeMapper mapper;
 
     @Override
-    public Optional<Employee> findBySocialNumber(SocialNumber socialNumber) {
-        if (socialNumber == null) {
+    public Optional<Employee> findById(SocialNumber id) {
+        if (id == null) {
             return Optional.empty();
         }
 
-        return jpaRepository.findById(socialNumber.getNumber()).map(mapper::toDomain);
+        return jpaRepository.findById(id.getNumber()).map(mapper::toDomain);
     }
 
     // Assim como em PaymentRepositoryImpl, o afterKey do cursor é usado como offset

@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 public class EmployeeEntity {
     @Id 
     @Column(name = "id_social_number")
-    private String socialNumber;
+    private String id;
 
     private String type;
 

@@ -17,18 +17,18 @@ public class PayeeFactory {
     private static final BigDecimal BASE_SALARY = new BigDecimal("1000.00");
     private static final LocalDate BIRTHDAY_OUT_OF_PERIOD = LocalDate.of(1990, 8, 10);
  
-    public static Payee payee(String socialNumber) {
-        return new PermanentPayee(SocialNumber.of(socialNumber), BIRTHDAY_OUT_OF_PERIOD, Gender.M, BASE_SALARY, 0);
+    public static Payee payee(String employeeId) {
+        return new PermanentPayee(SocialNumber.of(employeeId), BIRTHDAY_OUT_OF_PERIOD, Gender.M, BASE_SALARY, 0);
     }
 
     public static Payee payee(EmployeeType type, LocalDate birthDate, Gender gender, int weekendDaysWorked) {
-        final var socialNumber = SocialNumber.of("92572993848");
+        final var employeeId = SocialNumber.of("92572993848");
 
         return switch (type) {
-            case PERMANENT -> new PermanentPayee(socialNumber, birthDate, gender, BASE_SALARY, weekendDaysWorked);
-            case FIXED_TERM -> new FixedTermPayee(socialNumber, birthDate, gender, BASE_SALARY, weekendDaysWorked);
-            case INTERN -> new InternPayee(socialNumber, birthDate, gender, BASE_SALARY, weekendDaysWorked);
-            case SCHOLAR -> new ScholarPayee(socialNumber, birthDate, gender, BASE_SALARY, weekendDaysWorked);
+            case PERMANENT -> new PermanentPayee(employeeId, birthDate, gender, BASE_SALARY, weekendDaysWorked);
+            case FIXED_TERM -> new FixedTermPayee(employeeId, birthDate, gender, BASE_SALARY, weekendDaysWorked);
+            case INTERN -> new InternPayee(employeeId, birthDate, gender, BASE_SALARY, weekendDaysWorked);
+            case SCHOLAR -> new ScholarPayee(employeeId, birthDate, gender, BASE_SALARY, weekendDaysWorked);
         };
     }
 }

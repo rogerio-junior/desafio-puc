@@ -15,8 +15,8 @@ import br.puc_rio.tecgraf.challenge.domain.payment.rules.SalaryRule;
 public class PermanentPayee extends Payee {
     private static final SalaryRule SALARY_RULE = new BirthdayBonus().andThen(new ElderlyBonus());
 
-    public PermanentPayee(SocialNumber socialNumber, LocalDate birthDate, Gender gender, BigDecimal baseSalary, int weekendDaysWorked) {
-        super(socialNumber, birthDate, gender, baseSalary, weekendDaysWorked);
+    public PermanentPayee(SocialNumber employeeId, LocalDate birthDate, Gender gender, BigDecimal baseSalary, int weekendDaysWorked) {
+        super(employeeId, birthDate, gender, baseSalary, weekendDaysWorked);
     }
 
     @Override

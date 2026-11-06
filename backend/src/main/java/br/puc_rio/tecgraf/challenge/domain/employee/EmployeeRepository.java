@@ -7,15 +7,15 @@ import br.puc_rio.tecgraf.challenge.domain.Page;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
 
 public interface EmployeeRepository {
-    Optional<Employee> findBySocialNumber(SocialNumber socialNumber);
+    Optional<Employee> findById(SocialNumber id);
 
     // Eu costumo separar Find de Get para facilitar o uso onde a
     // recuperação da entidade é obrigatória e onde não é.
     // Também ajuda a padronizar esse mecanismo, principalmente
     // em retornos 404 de APIs.
-    default Employee getBySocialNumber(SocialNumber socialNumber) throws NotFoundException {
-       return findBySocialNumber(socialNumber).orElseThrow(() ->
-           new NotFoundException("Employee not found [socialNumber=%s]".formatted(socialNumber.getNumber()))
+    default Employee getById(SocialNumber id) throws NotFoundException {
+       return findById(id).orElseThrow(() ->
+           new NotFoundException("Employee not found [id=%s]".formatted(id.getNumber()))
        );
     }
 

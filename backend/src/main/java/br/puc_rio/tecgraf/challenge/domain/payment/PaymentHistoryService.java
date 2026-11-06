@@ -14,13 +14,13 @@ public class PaymentHistoryService {
     private final EmployeeRepository employeeRepository;
 
     public PaymentHistory getHistory(SocialNumber employeeId, YearMonth payrollPeriod, Page.Cursor cursor) throws NotFoundException {
-        final var employee = employeeRepository.getBySocialNumber(employeeId);
+        final var employee = employeeRepository.getById(employeeId);
 
         final var criteria = new PaymentRepository.Criteria(employeeId, payrollPeriod);
         final var payments = paymentRepository.findByCriteria(criteria, cursor);
 
         final var historyEmployee = new PaymentHistory.Employee(
-            employee.getSocialNumber().getNumber(),
+            employee.getId().getNumber(),
             employee.getFirstName(),
             employee.getLastName(),
             employee.isActive()
