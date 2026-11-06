@@ -80,7 +80,7 @@ Passo a passo para executar, compilar e buildar tudo na própria máquina.
 
 | Método | Rota | Parâmetros | Descrição |
 |---|---|---|---|
-| `GET` | `/employees` | Query: `cep` (opcional, com máscara `00000-000`), `limit` (padrão 25, máx. 500), `offset` (padrão 0) | Lista paginada dos funcionários ativos, com filtro opcional por CEP |
+| `GET` | `/employees` | Query: `active` (padrão `true`), `cep` (opcional, com máscara `00000-000`), `limit` (padrão 25, máx. 500), `offset` (padrão 0) | Lista paginada dos funcionários ativos (ou inativos, com `active=false`), com filtro opcional por CEP |
 | `GET` | `/employees/{employeeId}/payments` | Path: `employeeId` (CPF, com ou sem máscara)<br>Query: `month` (`YYYY-MM`, opcional), `limit` (padrão 25, máx. 500), `offset` (padrão 0) | Histórico de pagamentos do funcionário, com filtro opcional por competência |
 | `POST` | `/payments/calculate`<br>(RPC) | Body: `{ "referenceDate": "YYYY-MM-DD" }` (data passada ou presente) | Calcula os pagamentos da competência da data informada. 📌 **Usei RPC propositalmente** para representar o processo em lote, um padrão conhecido na literatura (controller resource). |
 | `GET` | `/payments` | Header: `Accept: application/json`<br>Query: `month` (`YYYY-MM`), `limit` (padrão 25, máx. 500), `offset` (padrão 0) | Lista paginada dos pagamentos da competência |

@@ -40,12 +40,13 @@ public class EmployeeController {
 
     @GetMapping
     public Page<EmployeeCep> findByActiveAndCep(
+        @RequestParam(defaultValue = "true") boolean active,
         @RequestParam(required = false) String cep,
         @RequestParam(defaultValue = "25") @Min(1) @Max(500) Integer limit,
         @RequestParam(defaultValue = "0") @Min(0) Integer offset
     ) {
         final var range = new Page.Range(offset, limit);
 
-        return employeeRepository.findByActiveAndCep(true, cep, range);
+        return employeeRepository.findByActiveAndCep(active, cep, range);
     }
 }
