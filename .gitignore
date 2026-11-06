@@ -1,8 +1,31 @@
+### Geral ###
+*.log
+.DS_Store
+
+# Database data
+.data/
+
+# Tools
+.obsidian/
+
+### Editores ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+backend/.vscode/
+frontend/.vscode/*
+!frontend/.vscode/extensions.json
+
+### Java ###
 # Compiled class file
 *.class
-
-# Log file
-*.log
 
 # BlueJ files
 *.ctxt
@@ -23,8 +46,41 @@
 hs_err_pid*
 replay_pid*
 
-# Database data
-.data/
+### Backend (Spring/Maven) ###
+backend/HELP.md
+target/
+backend/.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# Tools
-.obsidian/
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+backend/nbproject/private/
+backend/nbbuild/
+backend/dist/
+backend/nbdist/
+backend/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### Frontend (Vite/Node) ###
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
