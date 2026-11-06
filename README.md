@@ -17,7 +17,7 @@ Os requisitos do desafio podem ser encontrados [aqui](./.enunciado-desafio/desaf
 1. Tenha o Docker instalado.
 2. Execute o comando `docker compose up`
 3. O site fica disponível em `http://localhost:5173/` e a API em `http://localhost:8080/`
-4. Se precisar de dados de teste, veja o tópico seguinte
+4. Se precisar de dados de teste, veja o tópico seguinte.
 
 ## 🌱 Populando o BD com dados de teste (Opcional)
 
@@ -47,7 +47,7 @@ Passo a passo para executar, compilar e buildar tudo na própria máquina.
     * URL: `jdbc:postgresql://localhost:5432/postgres`
     * Usuário: `payment`
     * Senha: `P@yment2022`
-3. Todos os dados serão mapeados na pasta [./data/*](./data) (ignorada pelo Git). Caso queira resetar o banco, basta apagar essa pasta reiniciar o container.
+3. Todos os dados serão mapeados na pasta [./data/*](./data) (ignorada pelo Git). Caso queira resetar o banco, basta apagar essa pasta e reiniciar o container.
 
 ### 3. Compilar e executar o backend
 
@@ -91,19 +91,13 @@ Passo a passo para executar, compilar e buildar tudo na própria máquina.
 ### Stack
 
 * **Spring Boot**: Escolha natural para backend. Criei o projeto pelo `start.spring.io`.
-* **Flyway**: Permite manter o banco de dados atualizado automaticamente, sendo útil também para criar containers de banco de dados efêmeros dentro da suite de testes do Java.
+* **Flyway**: Permite manter o banco de dados atualizado automaticamente, sendo útil também para criar containers de banco de dados efêmeros dentro da suíte de testes do Java.
 * **Mapstruct**: Para converter objetos de forma mais fácil, visto que optei por deixar o domínio agnóstico.
-* **React**: Foi escolhido pela flexibilidade de criação de componentes e gestão do estado das telas. Usei o **Vite** para suportar o desenvolvimento com Hot Reload e build simplificado para produzir um HTML standalone (SPA) sem precisa de um servidor, devo à natureza simples do projeto.
+* **React**: Foi escolhido pela flexibilidade de criação de componentes e gestão do estado das telas. Usei o **Vite** para suportar o desenvolvimento com Hot Reload e build simplificado para produzir um HTML standalone (SPA) sem precisar de renderização no servidor (SSR), devido à natureza simples do projeto.
 
 ### Negócio
 
-* Assumi que a idade do funcionário é referente ao último dia da competência
-* Bonus com percentual apliquei arredondamento para cima nas dízimas com mais de 2 dígitos
+* Assumi que a idade do funcionário é referente ao último dia da competência.
+* Nos bônus com percentual, apliquei arredondamento para cima nas dízimas com mais de 2 dígitos.
 * O aniversário é avaliado pelo mês. Quem nasceu em 29/02 faz aniversário em fevereiro mesmo em ano não bissexto.
-
 * Funcionário que já tem pagamento no mês de competência não é recalculado nem sobrescrito.
-
-### Espec
-
-* Usei BigDecimal ao invés de Double
-* Problema do CEP, usei um índice como função
