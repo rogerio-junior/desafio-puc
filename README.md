@@ -19,7 +19,10 @@ Os requisitos do desafio podem ser encontrados [aqui](./desafio/desafio-tecnico-
 
 ### 2. Banco de dados
 
-1. Inicie o banco de dados: `docker compose up`
+1. Inicie o banco de dados:
+    ```bash
+    docker compose up
+    ```
 2. Informações para se conectar ao banco (eu usei o DBeaver):
     * URL: `jdbc:postgresql://localhost:5432/postgres`
     * Usuário: `payment`
@@ -28,32 +31,56 @@ Os requisitos do desafio podem ser encontrados [aqui](./desafio/desafio-tecnico-
 
 ### 3. Compilar e executar o backend
 
-1. Gere o *.jar* com o comando: `./backend/mvnw -f backend/pom.xml clean package`
-2. Execute o *.jar* com o comando: `java -jar backend/target/puc-challenge-v1.jar`. O servidor é iniciado em `http://localhost:8080`.
+1. Gere o *.jar* com o comando:
+    ```bash
+    ./backend/mvnw -f backend/pom.xml clean package
+    ```
+2. Execute o *.jar* com o comando (o servidor será iniciado em `http://localhost:8080`):
+    ```bash
+    java -jar backend/target/puc-challenge-v1.jar
+    ```
 3. A aplicação é quem gerencia a estrutura do banco de dados. Ela executa as migrações e cria todas as tabelas automaticamente com o **Flyway**.
 
 > Se preferir, pode executar ou depurar o backend através da sua IDE favorita, sabendo que é um projeto Maven
 
 ### 4. Alimentar banco de dados (Opcional)
 
-O arquivo [db-seed.sql](/db-seed.sql) pode ser executado para popular a tabela com dados de teste
-* TODO: Melhorar seed, especificar cenários
+O arquivo [db-seed.sql](/db-seed.sql) popula o banco com dados de teste. Você pode executar direto no banco ou, se preferir, com o comando abaixo:
+
+```bash
+docker compose exec -T db psql -U payment -d puc_challenge -v ON_ERROR_STOP=1 < db-seed.sql
+```
 
 ### 5. Compilar e executar o frontend
 
-1. Instale as dependências, compile e gere o HTML com o comando: `npm --prefix frontend ci && npm --prefix frontend run build`
-2. Sirva o site através de um servidor com o comando: `npm --prefix frontend run preview`. Isso é necessário porque se abrir o [/frontend/dist/index.html](./frontend/dist/index.html) direto no navegador, o navegador bloqueia os scripts do tipo módulo.
+1. Instale as dependências, compile e gere o HTML com o comando:
+    ```bash
+    npm --prefix frontend ci && npm --prefix frontend run build
+    ```
+2. Sirva o site através de um servidor com o comando:
+    ```bash
+    npm --prefix frontend run preview
+    ```
+
+> O site precisa ser servido por um servidor. Abrir o [/frontend/dist/index.html](./frontend/dist/index.html) diretamente pelo navegador não funciona, pois o navegador bloqueia scripts do tipo módulo.
 
 ## ⚖️ Decisões
 
-### Spring Boot
+### Stack
 
-Escolha natural para backend. Criei o projeto pelo `start.spring.io`.
+* **Spring Boot**: Escolha natural para backend. Criei o projeto pelo `start.spring.io`.
+* **Flyway**: Permite manter o banco de dados atualizado automaticamente, sendo útil também para criar containers de banco de dados efêmeros dentro da suite de testes do Java.
+* **React**: Foi escolhido pela flexibilidade de criação de componentes e gestão do estado das telas. Usei o **Vite** para suportar o desenvolvimento com Hot Reload e build simplificado para produzir um HTML standalone (SPA) sem precisa de um servidor, devo à natureza simples do projeto.
 
-### React
+### Negócio
 
-Foi escolhido pela flexibilidade de criação de componentes e gestão do estado das telas. Usei o **Vite** para suportar o desenvolvimento com Hot Reload e build simplificado para produzir um HTML standalone (SPA) sem precisa de um servidor, devo à natureza simples do projeto.
+* Assumi que a idade do funcionário é referente ao último dia da competência
+* Bonus com percentual apliquei arredondamento para cima nas dízimas com mais de 2 dígitos
+* O aniversário é avaliado pelo mês. Quem nasceu em 29/02 faz aniversário em fevereiro mesmo em ano não bissexto.
 
-### Flyway
+* Funcionário que já tem pagamento no mês de competência não é recalculado nem sobrescrito.
 
-Permite manter o banco de dados atualizado automaticamente, sendo útil também para criar containers de banco de dados efêmeros dentro da suite de testes do Java.
+### Espec
+
+* Usei BigDecimal ao invés de Double
+* Problema do CEP, usei um índice como função

@@ -1,6 +1,7 @@
 package br.puc_rio.tecgraf.challenge.domain.payment.rules;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Period;
 
 import br.puc_rio.tecgraf.challenge.domain.Gender;
@@ -15,7 +16,7 @@ public class ElderlyBonus implements SalaryRule {
 
         if ((employee.getGender() == Gender.M && age > 65)
             || employee.getGender() == Gender.F && age > 60) {
-            var bonus = employee.getBaseSalary().multiply(new BigDecimal("0.03"));
+            var bonus = employee.getBaseSalary().multiply(new BigDecimal("0.03")).setScale(2, RoundingMode.HALF_UP);
 
             return currentSalary.add(bonus);
         }
