@@ -16,17 +16,17 @@ function PaymentTable({ payments }: PaymentTableProps) {
         <span className={styles.salaryHeader}>Salário a receber</span>
       </div>
       {payments.map((payment) => (
-        <div key={payment.idEmployee} className={`${styles.columns} ${styles.row}`}>
+        <div key={payment.employeeId} className={`${styles.columns} ${styles.row}`}>
           <span className={styles.name}>
             {payment.firstName} {payment.lastName}
           </span>
           <span className={styles.cpf}>
-            <span>{formatCpf(payment.idEmployee)}</span>
-            <Link className={styles.historyLink} to={`/pagamentos?cpf=${payment.idEmployee}`}>
+            <span>{formatCpf(payment.employeeId)}</span>
+            <Link className={styles.historyLink} to={`/pagamentos?cpf=${payment.employeeId}`}>
               Ver todos os pagamentos
             </Link>
           </span>
-          <span className={styles.salary}>{formatCurrency(payment.salary)}</span>
+          <span className={styles.salary}>{formatCurrency(payment.amount)}</span>
         </div>
       ))}
     </div>

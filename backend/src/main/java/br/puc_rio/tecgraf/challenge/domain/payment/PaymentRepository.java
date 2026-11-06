@@ -7,8 +7,8 @@ import br.puc_rio.tecgraf.challenge.domain.Page;
 import br.puc_rio.tecgraf.challenge.domain.SocialNumber;
 
 public interface PaymentRepository {
-    // Filtros nulos em Criteria são ignorados. Para a próxima página, use page.nexCursor(PaymentInfo::cursorKey)
-    Page<PaymentInfo> findByCriteria(Criteria criteria, Page.Cursor cursor);
+    // Filtros nulos em Criteria são ignorados
+    Page<EmployeePayment> findByCriteria(Criteria criteria, Page.Cursor cursor);
 
     List<Payee> findPendingPayeesOn(YearMonth payrollPeriod);
     

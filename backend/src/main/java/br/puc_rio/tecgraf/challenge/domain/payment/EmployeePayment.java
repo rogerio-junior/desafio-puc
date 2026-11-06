@@ -2,13 +2,13 @@ package br.puc_rio.tecgraf.challenge.domain.payment;
 
 import java.math.BigDecimal;
 
-// Retorno das consultas
-public record PaymentInfo(
+// Projeção que une dados do funcionário com seu pagamento, usado pelas consultas
+public record EmployeePayment(
     long key,
-    String idEmployee,
+    String employeeId,
     String firstName,
     String lastName,
     int month,
     int year,
-    BigDecimal salary
+    BigDecimal amount
 ) { }

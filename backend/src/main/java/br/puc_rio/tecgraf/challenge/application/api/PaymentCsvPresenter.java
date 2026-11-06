@@ -6,19 +6,19 @@ import java.util.Locale;
 
 import br.puc_rio.tecgraf.challenge.domain.Page;
 import br.puc_rio.tecgraf.challenge.domain.Presenter;
-import br.puc_rio.tecgraf.challenge.domain.payment.PaymentInfo;
+import br.puc_rio.tecgraf.challenge.domain.payment.EmployeePayment;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor 
-public class PaymentCsvPresenter implements Presenter<Page<PaymentInfo>, byte[]> {
+public class PaymentCsvPresenter implements Presenter<Page<EmployeePayment>, byte[]> {
     private static final NumberFormat FORMATTER = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR"));
 
     @Getter private final char separator; // TODO: Validar , e ;
     @Getter private final Charset charset;
 
     @Override
-    public byte[] present(final Page<PaymentInfo> payments) {
+    public byte[] present(final Page<EmployeePayment> payments) {
         final var csv = new StringBuilder();
 
         // Header
@@ -27,12 +27,12 @@ public class PaymentCsvPresenter implements Presenter<Page<PaymentInfo>, byte[]>
         // Rows
         for (var payment : payments.items()) {
             appendCsv(csv, separator, 
-                payment.idEmployee(), 
+                payment.employeeId(), 
                 payment.firstName(), 
                 payment.lastName(), 
                 String.valueOf(payment.month()), 
                 String.valueOf(payment.year()), 
-                FORMATTER.format(payment.salary()));
+                FORMATTER.format(payment.amount()));
         }
 
         return csv.toString().getBytes(charset);

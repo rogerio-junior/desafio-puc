@@ -11,12 +11,12 @@ export type ComputeSalaryResult = {
 };
 
 export type MonthPayment = {
-  idEmployee: string;
+  employeeId: string;
   firstName: string;
   lastName: string;
   year: number;
   month: number;
-  salary: number;
+  amount: number;
 };
 
 export type HistoryPayment = {

@@ -28,7 +28,7 @@ public class PaymentHistoryService {
         final var entries = payments.map(payment -> new PaymentHistory.Entry(
             payment.year(),
             payment.month(),
-            payment.salary()
+            payment.amount()
         ));
 
         return new PaymentHistory(historyEmployee, entries);

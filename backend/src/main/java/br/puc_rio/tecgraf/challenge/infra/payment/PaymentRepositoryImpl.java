@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import br.puc_rio.tecgraf.challenge.domain.Page;
 import br.puc_rio.tecgraf.challenge.domain.payment.Payment;
 import br.puc_rio.tecgraf.challenge.domain.payment.Payee;
-import br.puc_rio.tecgraf.challenge.domain.payment.PaymentInfo;
+import br.puc_rio.tecgraf.challenge.domain.payment.EmployeePayment;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +25,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     // Ordem alfabética por nome e sobrenome. O CPF desempata homônimos e, no mesmo funcionário, o pagamento mais recente vem primeiro.
     // A paginação é por keyset: os valores negativos permitem comparar ano e mês (DESC) na mesma comparação de linha dos demais campos (ASC).
     @Override
-    public Page<PaymentInfo> findByCriteria(Criteria criteria, Page.Cursor cursor) {
+    public Page<EmployeePayment> findByCriteria(Criteria criteria, Page.Cursor cursor) {
         // A construção dos critérios dessa maneira evita ter que criar vários ifs
         final var FILTERS = """
             (:socialNumber IS NULL OR p.id_employee = :socialNumber)
@@ -35,12 +35,12 @@ public class PaymentRepositoryImpl implements PaymentRepository {
 
         final var SQL = """
             SELECT ROW_NUMBER() OVER (ORDER BY p.year DESC, p.month DESC, e.first_name, e.last_name, p.id_employee) AS key,
-                p.id_employee,
+                p.id_employee AS employee_id,
                 e.first_name,
                 e.last_name,
                 p.month,
                 p.year,
-                p.payment AS salary
+                p.payment AS amount
             FROM payment p
             JOIN employee e ON e.id_social_number = p.id_employee
             WHERE %s
@@ -62,7 +62,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
             .param("month", month, Types.INTEGER)
             .param("limit", cursor.limit())
             .param("offset", Integer.valueOf(cursor.afterKey())) // TODO: Corrigir tipagem
-            .query(PaymentInfo.class)
+            .query(EmployeePayment.class)
             .list();
 
         var total = jdbcClient.sql(COUNT_SQL)

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.puc_rio.tecgraf.challenge.domain.Page;
-import br.puc_rio.tecgraf.challenge.domain.payment.PaymentInfo;
+import br.puc_rio.tecgraf.challenge.domain.payment.EmployeePayment;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentRepository;
 import br.puc_rio.tecgraf.challenge.domain.payment.SalaryService;
 import jakarta.validation.Valid;
@@ -46,7 +46,7 @@ public class PaymentController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<PaymentInfo> findByMonth(
+    public Page<EmployeePayment> findByMonth(
         @RequestParam YearMonth month,
         @RequestParam(defaultValue = "25") @Max(500) Integer limit,
         @RequestParam(defaultValue = "0") Integer offset
