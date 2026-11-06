@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class PaymentController {
     private final SalaryService salaryService;
     private final PaymentRepository paymentRepository;
-    private final PaymentCsvPresenter csvPresenter = new PaymentCsvPresenter(';', StandardCharsets.UTF_8);
+    private final PaymentCsvPresenter csvPresenter = new PaymentCsvPresenter(',', StandardCharsets.UTF_8);
 
     @PostMapping("/calculate")
     public SalaryService.ComputeSalaryResult calculate(@Valid @RequestBody CalculateRequest request) {
