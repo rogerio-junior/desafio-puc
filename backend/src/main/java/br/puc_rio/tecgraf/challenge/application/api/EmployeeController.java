@@ -1,5 +1,9 @@
 package br.puc_rio.tecgraf.challenge.application.api;
 
+import static br.puc_rio.tecgraf.challenge.application.api.FieldViolation.Messages.CEP;
+import static br.puc_rio.tecgraf.challenge.application.api.FieldViolation.Messages.PAGE_LIMIT;
+import static br.puc_rio.tecgraf.challenge.application.api.FieldViolation.Messages.PAGE_OFFSET;
+
 import java.time.YearMonth;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +21,7 @@ import br.puc_rio.tecgraf.challenge.domain.payment.PaymentHistory;
 import br.puc_rio.tecgraf.challenge.domain.payment.PaymentHistoryService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -30,8 +35,8 @@ public class EmployeeController {
     public PaymentHistory findPayments(
         @PathVariable SocialNumber employeeId,
         @RequestParam(required = false) YearMonth month,
-        @RequestParam(defaultValue = "25") @Min(1) @Max(500) Integer limit,
-        @RequestParam(defaultValue = "0") @Min(0) Integer offset
+        @RequestParam(defaultValue = "25") @Min(value = 1, message = PAGE_LIMIT) @Max(value = 500, message = PAGE_LIMIT) Integer limit,
+        @RequestParam(defaultValue = "0") @Min(value = 0, message = PAGE_OFFSET) Integer offset
     ) throws NotFoundException {
         var range = new Page.Range(offset, limit);
 
@@ -41,9 +46,9 @@ public class EmployeeController {
     @GetMapping
     public Page<EmployeeCep> findByActiveAndCep(
         @RequestParam(defaultValue = "true") boolean active,
-        @RequestParam(required = false) String cep,
-        @RequestParam(defaultValue = "25") @Min(1) @Max(500) Integer limit,
-        @RequestParam(defaultValue = "0") @Min(0) Integer offset
+        @RequestParam(required = false) @Pattern(regexp = "(\\d{5}-\\d{3})?", message = CEP) String cep,
+        @RequestParam(defaultValue = "25") @Min(value = 1, message = PAGE_LIMIT) @Max(value = 500, message = PAGE_LIMIT) Integer limit,
+        @RequestParam(defaultValue = "0") @Min(value = 0, message = PAGE_OFFSET) Integer offset
     ) {
         final var range = new Page.Range(offset, limit);
 

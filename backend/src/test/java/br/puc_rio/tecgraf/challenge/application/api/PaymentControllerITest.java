@@ -75,16 +75,15 @@ class PaymentControllerITest {
             .andExpect(status().isBadRequest())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON))
             .andExpect(jsonPath("$.status").value(400))
-            .andExpect(jsonPath("$.detail").value(PaymentController.CalculateRequest.INVALID_REFERENCE_DATE));
+            .andExpect(jsonPath("$.detail").value("One field is invalid"))
+            .andExpect(jsonPath("$.errors[0].field").value("referenceDate"))
+            .andExpect(jsonPath("$.errors[0].message").value(PaymentController.CalculateRequest.INVALID_REFERENCE_DATE));
 
         verify(salaryService, never()).computeSalary(any());
     }
 
-    // TODO: Alguns formatos deveriam cair na mensagem de INVALID_REFERENCE_DATE
     @ParameterizedTest
     @ValueSource(strings = {
-        "",
-        "not json",
         "{\"referenceDate\": \"2026-13-01\"}",
         "{\"referenceDate\": \"2026-00-01\"}",
         "{\"referenceDate\": \"2026-5-1\"}",
@@ -92,6 +91,21 @@ class PaymentControllerITest {
         "{\"referenceDate\": \"01/05/2026\"}",
         "{\"referenceDate\": \"0999-01\"}",
     })
+    void calculate_shouldPointFieldWhenDateHasInvalidFormat(String body) throws Exception {
+        mockMvc.perform(post("/payments/calculate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON))
+            .andExpect(jsonPath("$.detail").value("One field is invalid"))
+            .andExpect(jsonPath("$.errors[0].field").value("referenceDate"))
+            .andExpect(jsonPath("$.errors[0].message").value(FieldViolation.Messages.LOCAL_DATE));
+
+        verify(salaryService, never()).computeSalary(any());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "", "not json" })
     void calculate_shouldRejectWhenUnreadableBody(String body) throws Exception {
         mockMvc.perform(post("/payments/calculate")
                 .contentType(MediaType.APPLICATION_JSON)

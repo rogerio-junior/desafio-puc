@@ -1,5 +1,8 @@
 package br.puc_rio.tecgraf.challenge.application.api;
 
+import static br.puc_rio.tecgraf.challenge.application.api.FieldViolation.Messages.PAGE_LIMIT;
+import static br.puc_rio.tecgraf.challenge.application.api.FieldViolation.Messages.PAGE_OFFSET;
+
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -43,14 +46,14 @@ public class PaymentController {
         @PastOrPresent(message = INVALID_REFERENCE_DATE)
         LocalDate referenceDate
     ){
-        final static String INVALID_REFERENCE_DATE = "only past or present date in the format 'YYYY-MM-DD' (ISO 8601)";
+        final static String INVALID_REFERENCE_DATE = "must be a past or present date in ISO 8601 format YYYY-MM-DD (e.g. \"2026-05-01\")";
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<EmployeePayment> findByMonth(
         @RequestParam YearMonth month,
-        @RequestParam(defaultValue = "25") @Min(1) @Max(500) Integer limit,
-        @RequestParam(defaultValue = "0") @Min(0) Integer offset
+        @RequestParam(defaultValue = "25") @Min(value = 1, message = PAGE_LIMIT) @Max(value = 500, message = PAGE_LIMIT) Integer limit,
+        @RequestParam(defaultValue = "0") @Min(value = 0, message = PAGE_OFFSET) Integer offset
     ) {
         final var range = new Page.Range(offset, limit);
         final var criteria = new PaymentRepository.Criteria(null, month);
