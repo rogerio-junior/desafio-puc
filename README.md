@@ -88,20 +88,35 @@ Passo a passo para executar, compilar e buildar tudo na própria máquina.
 
 ## ⚖️ Decisões
 
+### Employee → Payee 
+
+O desafio propõe a classe abstrata [Employee.java](./.enunciado-desafio/Employee.java), com uma especialização para cada tipo de funcionário, na qual cada uma faz o próprio cálculo do salário.
+
+Mantive essa herança, mas renomeei a classe abstrata para [Payee.java](./backend/src/main/java/br/puc_rio/tecgraf/challenge/domain/payment/Payee.java), movendo-a para o domínio de pagamentos, onde ficam também as implementações. A classe `Employee` continua existindo no domínio de funcionários, mas apenas com os dados cadastrais (sem método de cálculo).
+
+**Motivo**: `Payee` é a visão de `Employee` usada pela folha de pagamento. Cadastro e cálculo têm necessidades diferentes, e separá-los traz os seguintes benefícios:
+
+* **Cada domínio conhece apenas os dados de que precisa**: `Payee` contém os campos usados no cálculo, inclusive `weekendDaysWorked`, que não faz sentido no cadastro de funcionário. Assim, é possível cadastrar um funcionário sem informar dados de frequência. Da mesma forma, `Payee` não carrega dados irrelevantes para o cálculo, como o endereço.
+* **Desempenho**: a query que carrega os `Payee` já traz `weekendDaysWorked` agregado pelo banco, o que evita buscar todos os registros de `attendance` para processá-los no Java. Outros dados necessários ao cálculo podem ser fornecidos da mesma maneira.
+* **Evolução independente**: `Employee` pode ganhar novas funcionalidades de cadastro sem afetar o cálculo, o que evita uma *God Class*. O domínio de pagamentos, por sua vez, não se preocupa com o cadastro de funcionários, apenas lê os funcionários existentes e usa o que precisa.
+* **Regras reutilizáveis**: cada bônus é uma implementação de [SalaryRule](./backend/src/main/java/br/puc_rio/tecgraf/challenge/domain/payment/rules/SalaryRule.java), e cada tipo de `Payee` compõe as regras que se aplicam a ele. Se o percentual do bônus de idosos mudar, por exemplo, a alteração em um único lugar vale para todos os tipos que o recebem.
+
+Mantive o método `computeSalary` na classe por ser a proposta do desafio. Em geral, eu separaria os dados do comportamento, com uma classe para os dados do funcionário e um *handler* para calcular o salário de cada tipo, deixando a classe extensível e evitando que acumule papeis à medida que novas funcionalidades são adicionadas.
+
+### Negócio
+
+* Assumi que a idade do funcionário é referente ao último dia do mês de competência calculado.
+* Nos bônus com percentual, apliquei arredondamento para cima nas dízimas com mais de 2 dígitos.
+* O aniversáriante do mês é avaliado pelo mês. Quem nasceu em 29/02 faz aniversário em fevereiro mesmo em ano não bissexto.
+* Funcionário que já tem pagamento no mês não é recalculado nem sobrescrito.
+* Funcionários não binários não ganham bônus por idade, mesmo com mais de 60 anos.
+
 ### Stack
 
 * **Spring Boot**: Escolha natural para backend. Criei o projeto pelo `start.spring.io`.
 * **Flyway**: Permite manter o banco de dados atualizado automaticamente, sendo útil também para criar containers de banco de dados efêmeros dentro da suíte de testes do Java.
 * **Mapstruct**: Para converter objetos de forma mais fácil, visto que optei por deixar o domínio agnóstico.
 * **React**: Foi escolhido pela flexibilidade de criação de componentes e gestão do estado das telas. Usei o **Vite** para suportar o desenvolvimento com Hot Reload e build simplificado para produzir um HTML standalone (SPA) sem precisar de renderização no servidor (SSR), devido à natureza simples do projeto.
-
-### Negócio
-
-* Assumi que a idade do funcionário é referente ao último dia da competência.
-* Nos bônus com percentual, apliquei arredondamento para cima nas dízimas com mais de 2 dígitos.
-* O aniversário é avaliado pelo mês. Quem nasceu em 29/02 faz aniversário em fevereiro mesmo em ano não bissexto.
-* Funcionário que já tem pagamento no mês de competência não é recalculado nem sobrescrito.
-* Funcionários não binários não ganham bônus por idade, mesmo com mais de 60 anos.
 
 ### Técnico
 
